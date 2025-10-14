@@ -1,5 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-def sale(request):
+def index(request):
     return render(request, "sale/sale.html")

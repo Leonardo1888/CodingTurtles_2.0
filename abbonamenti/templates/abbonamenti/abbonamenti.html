@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Abbonamenti{% endblock %}
+
+    <?php include("includes/header.php"); ?>
+    <?php include("includes/navbar.php"); ?>
+
+    <?php // Verifica che quando abbonamenti.php viene aperta non ci sia un valore per la GET.
+        $cliente_filtro = '';
+        if (isset($_GET['cliente'])) {
+            $cliente_filtro = htmlspecialchars($_GET['cliente']);
+        }
+        $abbonamento_filtro = '';
+        if (isset($_GET['abbonamento'])) {
+            $abbonamento_filtro = htmlspecialchars($_GET['abbonamento']);
+        }
+    ?>
+
+{% block content %}
+<div class="contenitore-centrale">
+    <aside class="colonna-filtro">
+        <h3>Filtra gli abbonamenti</h3>
+        <form id="filtro-abbonamenti-form">
+            <label for="nAbb">Codice Abbonamento:</label>
+            <input type="text" id="nAbb" name="nAbb" value="<?php echo $abbonamento_filtro ?>"><br>
+
+            <label for="cliente">Codice Cliente:</label>
+            <input type="text" id="cliente" name="cliente" value="<?php echo $cliente_filtro; ?>"><br>
+
+            <label>Data di inizio:</label>
+            <div class="input-range">
+                <input type="date" id="inizio_abbonamento_min" name="inizio_abbonamento_min">
+                <span>-</span>
+                <input type="date" id="inizio_abbonamento_max" name="inizio_abbonamento_max">
+            </div><br>
+
+            <label>Data di fine:</label>
+            <div class="input-range">
+                <input type="date" id="fine_abbonamento_min" name="fine_abbonamento_min">
+                <span>-</span>
+                <input type="date" id="fine_abbonamento_max" name="fine_abbonamento_max">
+            </div><br>
+
+            <label>Prezzo:</label>
+            <div class="input-range">
+                da <input type="number" id="prezzo_min" name="prezzo_min" placeholder="min">
+                <span>a</span>
+                <input type="number" id="prezzo_max" name="prezzo_max" placeholder="max">
+            </div><br>
+
+            <button type="submit">Cerca</button>
+        </form>
+    </aside>
+
+    <main class="colonna-risultati" id="risultati">
+        <h2>ABBONAMENTI</h2>
+        <p>Scopri gli abbonamenti acquistati filtrando a sinistra!</p>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codice</th>
+                        <th>Codice Cliente</th>
+                        <th>Data Inizio</th>
+                        <th>Data Fine</th>
+                        <th>Prezzo</th>
+                    </tr>
+                </thead>
+                <tbody id="risultati-tabella-abbonamenti">
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/crud_functions.js' %}"></script>
+    <script src="{% static 'js/abbonamenti_logic.js' %}"></script>
+{% endblock extra_scripts %}
