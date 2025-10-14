@@ -1,0 +1,164 @@
+ /* -----    INDEX PAGE   ----- */
+
+/* Contenitore principale della home */
+
+.main-container {
+  max-width: 1100px;
+  margin: 40px auto 100px;
+  padding: 0 20px;
+}
+
+
+/* Sezione hero */
+.hero-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+
+.hero-section h1 {
+  font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem);
+  margin-bottom: 8px;
+}
+
+
+.hero-section p {
+  color: #4b5563;
+  max-width: 800px;
+  margin: 0 auto 18px;
+}
+
+
+.hero-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+.hero-image {
+  width: 100%;
+  max-width: 820px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Divider all'interno della pagina home */
+
+.colonna-risultati hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d1fae5, transparent);
+  margin: 28px auto;
+}
+
+
+/* Sezioni a due colonne */
+
+.feature-section {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin: 24px auto;
+  max-width: 1000px;
+}
+
+
+.feature-section.text-left {
+  flex-direction: row;
+}
+
+
+.feature-section.text-right {
+  flex-direction: row-reverse;
+}
+
+
+.content-text {
+  flex: 1 1 50%;
+}
+
+
+.content-text h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.2rem, 1.2vw + 1rem, 1.6rem);
+}
+
+
+.content-text p {
+  color: #374151;
+  margin: 6px 0;
+}
+
+
+.content-image {
+  flex: 1 1 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.feature-image {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Call to action */
+
+.call-to-action {
+  text-align: center;
+  margin: 6px auto 12px;
+  padding: 26px 16px;
+  background: var(--grigio-chiaro);
+  border-radius: 12px;
+  max-width: 900px;
+}
+
+
+.call-to-action h2 {
+  margin-bottom: 6px;
+}
+
+
+.button-cta {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--verde-scuro);
+  color: var(--bianco);
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+
+.button-cta:hover {
+  background: var(--verde);
+  transform: translateY(-1px);
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .feature-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+
+  .content-image,
+  .content-text {
+    width: 100%;
+  }
+
+  .content-text {
+    text-align: center;
+  }
+} 
