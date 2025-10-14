@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sale{% endblock %}
+
+{% block content %}
+<div class="contenitore-centrale">
+    <aside class="colonna-filtro">
+        <h3>Filtra le sale</h3>
+        <form id="filtro-form">
+            <label for="Codice">Codice Sala:</label>
+            <input type="text" id="Codice" name="Codice" value="<?php echo $sale_filtro ?>" /><br />
+
+            <label for="Nome">Nome:</label>
+            <input type="text" id="Nome" name="Nome" /><br />
+
+            <label for="Tema">Tema:</label>
+            <select id="Tema" name="Tema">
+                <option value="">Tutti</option>
+                <?php
+                    require_once 'database/db.php';
+                    $sql = "SELECT DISTINCT tema FROM Sala";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . htmlspecialchars($row['tema']) . "'>" . htmlspecialchars($row['tema']) . "</option>";
+                        }
+                    }
+                    $conn->close();
+                ?>
+            </select><br />
+
+            <label>Metri quadrati:</label>
+            <div class="input-range">
+                da <input type="number" id="Mq_min" name="Mq_min" placeholder="min" />
+                <span>a</span>
+                <input type="number" id="Mq_max" name="Mq_max" placeholder="max" />
+            </div><br />
+
+            <button type="submit">Cerca</button>
+        </form>
+    </aside>
+
+    <main class="colonna-risultati" id="risultati">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h2>SALE</h2>
+            <button id="openAddSala" style="padding:8px 16px; cursor:pointer;">
+                <i class="fa fa-plus"></i> Aggiungi Sala
+            </button>
+        </div>
+        <p>Scopri le sale della palestra Coding Turtles filtrando a sinistra!</p>
+        <p>Per ordinare le sale, clicca semplicemente sulle intestazioni di colonna.</p>
+
+        <table cellspacing="0" cellpadding="6" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th class="sortable" onclick="sortTable('codice')" data-column="codice">
+                        <u>Codice Sala</u>
+                        <span class="sort-icon"></span>
+                    </th>
+                    <th class="sortable" onclick="sortTable('nome')" data-column="nome">
+                        <u>Nome</u>
+                        <span class="sort-icon"></span>
+                    </th>
+                    <th>Tema</th>
+                    <th class="sortable" onclick="sortTable('mq')" data-column="mq">
+                        <u>Metri Quadrati</u>
+                        <span class="sort-icon"></span>
+                    </th>
+                    <th class="sortable" onclick="sortTable('nFasceOrarie')" data-column="nFasceOrarie">
+                        <u>n.fasce orarie</u>
+                        <span class="sort-icon"></span>
+                    </th>
+                    <th class="sortable" onclick="sortTable('nPrenotazioni')" data-column="nPrenotazioni">
+                        <u>n.Prenotazioni</u>
+                        <span class="sort-icon"></span>
+                    </th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody id="risultati-tabella-sale">
+                <!-- Dati caricati via AJAX -->
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<!-- Modale personalizzato per aggiungi/modifica sala -->
+<div id="salaModal" class="modal-sfondo" style="display:none;">
+    <div class="modal-contenuto">
+        <form id="salaForm">
+            <h3 id="modalTitle">Aggiungi Sala</h3>
+            <input type="hidden" id="form-action" value="add" />
+            <label>
+                Codice Sala (facoltativo):
+                <input type="text" id="form-codice" name="codice" pattern="^S\d{3}$" />
+            </label><br />
+            <label>
+                Nome:
+                <input type="text" id="form-nome" name="nome" required maxlength="100" />
+            </label><br />
+            <label>
+                Tema:
+                <select id="form-tema" name="tema" required>
+                    <option value="">Scegli tema</option>
+                    <option>Cardio</option>
+                    <option>Pesi liberi</option>
+                    <option>Macchine</option>
+                    <option>Corpo libero</option>
+                    <option>Sauna</option>
+                </select>
+            </label><br />
+            <label>
+                Metri Quadrati:
+                <input type="number" id="form-mq" name="mq" required min="1" max="1000" />
+            </label><br />
+            <div>
+                <button type="submit" id="form-submit-btn">Salva</button>
+                <button type="button" id="closeModalBtn">Annulla</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+{% block extra_scripts %}
+    <script src="js/crud_functions.js"></script>
+    <script src="js/sale_logic.js"></script>
+{% endblock extra_scripts %}

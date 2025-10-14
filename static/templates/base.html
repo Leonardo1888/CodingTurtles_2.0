@@ -8,8 +8,9 @@
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% block extra_styles %}{% endblock %}
 </head>
 
 <body>
@@ -24,8 +25,8 @@
     {% include 'footer.html' %}
     
     {% block extra_scripts %}
-        <link rel="stylesheet" href="{% static 'style.css' %}">
-        <link rel="stylesheet" href="{% static 'style_index_page.css' %}">
     {% endblock %}  
+
+    
 </body>
 </html>
