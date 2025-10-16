@@ -1,13 +1,22 @@
 {% load static %}
 <header class="site-header">
-    <div class="container-header">    
-    <a href="{% url 'index' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Coding Turtles Logo" class="logo">
-    </a>
-        <div class="title">
-            <h1>Coding Turtles</h1>
-            <p>Allenamento per corpo e mente</p>
+    <div class="container-fluid container-header py-3">
+        <div class="row align-items-center justify-content-between mx-auto" style="max-width: 1200px; padding: 0 15px;">
+            
+            <div class="d-flex align-items-center gap-3 col-auto">
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Coding Turtles Logo" class="logo">
+                </a>
+                <div class="title">
+                    <h1 class="mb-0">Coding Turtles</h1>
+                    <p class="mb-0">Allenamento per corpo e mente</p>
+                </div>
+            </div>
+
+            <div class="col-auto d-none d-md-block">
+                 <img src="{% static 'images/ballerinaObliquo.png' %}" alt="Ballerina" class="ballerina-image">
+            </div>
+            
         </div>
-    <img src="{% static 'images/ballerinaObliquo.png' %}" alt="Ballerina" class="ballerina-image">
     </div>
 </header>
