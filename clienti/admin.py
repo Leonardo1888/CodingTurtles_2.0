@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Cliente, Abbonamento, SubAbbonamento
 
-class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('codice', 'nome', 'cognome', 'email', 'tel')
+class ClienteAdmin(admin.ModelAdmin):  
+    list_display = ('codice', 'nome', 'cognome', 'cf', 'dataNas', 'indirizzo', 'tel', 'email')
     search_fields = ('codice', 'nome', 'cognome', 'cf', 'email')
     list_filter = ('dataNas',)
     ordering = ('cognome', 'nome')

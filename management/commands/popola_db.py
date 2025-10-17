@@ -298,7 +298,7 @@ with transaction.atomic():
 
     print(f"- Prenotazioni: {len(generated_prenotazioni)}")
     print(f"- SubAbbonamenti: {len(generated_sub_abbonamenti)}")
-    print("\nFile di popolazione completato con successo tramite ORM di Django! 🎉")
+    print("\nFile di popolazione completato con successo tramite ORM di Django!")
 
 
 # --- ESECUZIONE ---
