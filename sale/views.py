@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Sala, FasciaOraria, Prenotazione
 
 def index(request):
-    sale = Sala.objects.all()
+    sale = Sala.objects.all().order_by('codice')
     sale_data = []
     for sala in sale:
         n_fasce = FasciaOraria.objects.filter(sala=sala).count()
