@@ -83,7 +83,11 @@
                         <td>{{ sala.nome }}</td>
                         <td>{{ sala.tema }}</td>
                         <td>{{ sala.mq }}</td>
-                        <td>{{ sala.n_fasce }}</td>
+                        <td>    
+                            <a href="{% url 'fasce_orarie:fasce_orarie' sala.codice %}">
+                                {{ sala.n_fasce }}
+                            </a>
+                        </td>
                         <td>    
                             <a href="{% url 'prenotazioni:prenotazioni' sala.codice %}">
                                 {{ sala.n_prenotazioni }}
