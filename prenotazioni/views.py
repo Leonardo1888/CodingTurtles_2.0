@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from sale.models import Prenotazione
 
-def index(request):
-    return render(request, "prenotazioni/prenotazioni.html")
+def prenotazioni(request, codice_sala):
+    prenotazioni = Prenotazione.objects.filter(sala__codice=codice_sala)
+    return render(request, "prenotazioni/prenotazioni.html", {'prenotazioni_data': prenotazioni})

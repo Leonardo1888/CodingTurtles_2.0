@@ -84,7 +84,11 @@
                         <td>{{ sala.tema }}</td>
                         <td>{{ sala.mq }}</td>
                         <td>{{ sala.n_fasce }}</td>
-                        <td>{{ sala.n_prenotazioni }}</td>
+                        <td>    
+                            <a href="{% url 'prenotazioni:prenotazioni' sala.codice %}">
+                                {{ sala.n_prenotazioni }}
+                            </a>
+                        </td>
                         <td>
                         <!-- Qui puoi mettere bottoni per azioni, es: -->
                         <a href="#">Modifica</a>
