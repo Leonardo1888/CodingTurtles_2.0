@@ -83,7 +83,7 @@ if (isset($_GET['codice'])) {
                             </a>
                         </td>
                         <td>    
-                            <a href="#">
+                            <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
                                 {{ cliente.n_prenotazioni }}
                             </a>
                         </td>
