@@ -77,8 +77,16 @@ if (isset($_GET['codice'])) {
                         <td>{{ cliente.indirizzo }}</td>
                         <td>{{ cliente.tel }}</td>
                         <td>{{ cliente.email }}</td>
-                        <td>{{ cliente.n_abb }}</td>
-                        <td>{{ cliente.n_prenotazioni }}</td>
+                         <td>    
+                            <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
+                                {{ cliente.n_abb }}
+                            </a>
+                        </td>
+                        <td>    
+                            <a href="#">
+                                {{ cliente.n_prenotazioni }}
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -14,3 +14,8 @@ def index(request):
             "prezzo": abbonamento.prezzo,
         })
     return render(request, "abbonamenti/abbonamenti.html", {"abbonamenti_data": abbonamenti_data})
+
+#Funzione per collegamento cliente->n.abb
+def abbonamenti(request, codice_cliente): 
+    abbonamenti = Abbonamento.objects.filter(cliente__codice=codice_cliente)
+    return render(request, "abbonamenti/abbonamenti.html", {'abbonamenti_data': abbonamenti})
