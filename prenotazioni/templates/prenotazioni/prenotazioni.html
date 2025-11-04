@@ -55,6 +55,16 @@
                     </tr>
                 </thead>
                 <tbody id="risultati-tabella-prenotazioni">
+                    {% for prenotazione in prenotazioni_data %}
+                    <tr>
+                        <td>{{ prenotazione.cliente }}</td>
+                        <td>{{ prenotazione.sala }}</td>
+                        <td>{{ prenotazione.data }}</td>
+                        <td>{{ prenotazione.ora }}</td>
+                        <td>{{ prenotazione.posto }}</td>
+                        <td>{{ prenotazione.abbonamento }}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

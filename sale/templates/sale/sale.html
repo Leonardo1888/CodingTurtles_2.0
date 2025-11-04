@@ -77,7 +77,29 @@
                 </tr>
             </thead>
             <tbody id="risultati-tabella-sale">
-                <!-- Dati caricati via AJAX -->
+                {% for sala in sale_data %}
+                    <tr>
+                        <td>{{ sala.codice }}</td>
+                        <td>{{ sala.nome }}</td>
+                        <td>{{ sala.tema }}</td>
+                        <td>{{ sala.mq }}</td>
+                        <td>    
+                            <a href="{% url 'fasce_orarie:fasce_orarie' sala.codice %}">
+                                {{ sala.n_fasce }}
+                            </a>
+                        </td>
+                        <td>    
+                            <a href="{% url 'prenotazioni:prenotazioni_sala' sala.codice %}">
+                                {{ sala.n_prenotazioni }}
+                            </a>
+                        </td>
+                        <td>
+                        <!-- Qui puoi mettere bottoni per azioni, es: -->
+                        <a href="#">Modifica</a>
+                        <a href="#">Elimina</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
             </tbody>
         </table>
     </main>

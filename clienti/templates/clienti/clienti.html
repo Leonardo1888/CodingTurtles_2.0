@@ -67,6 +67,28 @@ if (isset($_GET['codice'])) {
                     </tr>
                 </thead>
                 <tbody id="risultati-tabella-clienti">
+                    {% for cliente in clienti_data %}
+                    <tr>
+                        <td>{{ cliente.codice }}</td>
+                        <td>{{ cliente.nome }}</td>
+                        <td>{{ cliente.cognome }}</td>
+                        <td>{{ cliente.cf }}</td>
+                        <td>{{ cliente.dataNas }}</td>
+                        <td>{{ cliente.indirizzo }}</td>
+                        <td>{{ cliente.tel }}</td>
+                        <td>{{ cliente.email }}</td>
+                         <td>    
+                            <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
+                                {{ cliente.n_abb }}
+                            </a>
+                        </td>
+                        <td>    
+                            <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
+                                {{ cliente.n_prenotazioni }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
     </main>

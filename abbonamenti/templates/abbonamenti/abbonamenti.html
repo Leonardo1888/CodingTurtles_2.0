@@ -68,6 +68,15 @@
                     </tr>
                 </thead>
                 <tbody id="risultati-tabella-abbonamenti">
+                    {% for abbonamento in abbonamenti_data %}
+                    <tr>
+                        <td>{{ abbonamento.nAbb }}</td>
+                        <td>{{ abbonamento.cliente }}</td>
+                        <td>{{ abbonamento.inizio }}</td>
+                        <td>{{ abbonamento.fine }}</td>
+                        <td>{{ abbonamento.prezzo }}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
