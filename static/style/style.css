@@ -85,13 +85,7 @@ body {
 .logo {
   width: 60px;
   height: auto;
-  transition: transform 0.3s ease;
   /* effetto di transizione */
-}
-
-.logo:hover {
-  transform: scale(1.5);
-  /* Ingrandisce il logo al passaggio del mouse */
 }
 
 .title h1 {
@@ -571,15 +565,21 @@ th.sortable .sort-icon {
   display: block;
 }
 
+.modal-contenuto div {
+  margin-bottom: 20px;
+}
+
 .modal-contenuto input,
 .modal-contenuto select {
-  padding: 5px;
-  margin-top: 4px;
+  padding: 8px;
+  margin-top: 6px;
   width: 92%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .modal-contenuto button {
-  padding: 6px 16px;
+  padding: 8px 16px;
   margin-right: 12px;
   margin-top: 10px;
 }
