@@ -1,13 +1,13 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-custom">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
     <div class="container-header container">
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav nav-list">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-list me-auto">
                 <li class="nav-item mx-2">
                     <a href="{% url 'sale:index' %}" class="btn-nav nav-link p-2">Sale</a>
                 </li>
@@ -18,6 +18,9 @@
                     <a href="{% url 'abbonamenti:index' %}" class="btn-nav nav-link p-2">Abbonamenti</a>
                 </li>
             </ul>
+            <div id="notification-area" class="navbar-text me-3" style="min-height: 40px; display: flex; align-items: center;">
+                <!-- Notifications will appear here -->
+            </div>
         </div>
         
     </div>

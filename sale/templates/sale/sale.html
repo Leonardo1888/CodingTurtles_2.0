@@ -7,44 +7,37 @@
 <div class="contenitore-centrale">
     <aside class="colonna-filtro">
         <h3>Filtra le sale</h3>
-        <form id="filtro-form">
+        <form id="filtro-form" method="get">
             <label for="Codice">Codice Sala:</label>
-            <input type="text" id="Codice" name="Codice" value="<?php echo $sale_filtro ?>" /><br />
+            <input type="text" id="Codice" name="Codice" value="{{ filters.Codice }}"/><br />
 
             <label for="Nome">Nome:</label>
-            <input type="text" id="Nome" name="Nome" /><br />
+            <input type="text" id="Nome" name="Nome" value="{{ filters.Nome }}" /><br />
 
             <label for="Tema">Tema:</label>
             <select id="Tema" name="Tema">
                 <option value="">Tutti</option>
-                <?php
-                    require_once 'database/db.php';
-                    $sql = "SELECT DISTINCT tema FROM Sala";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . htmlspecialchars($row['tema']) . "'>" . htmlspecialchars($row['tema']) . "</option>";
-                        }
-                    }
-                    $conn->close();
-                ?>
+                {% for t in themes %}
+                    <option value="{{ t }}" {% if filters.Tema == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
             </select><br />
 
             <label>Metri quadrati:</label>
             <div class="input-range">
-                da <input type="number" id="Mq_min" name="Mq_min" placeholder="min" />
+                da <input type="number" id="Mq_min" name="Mq_min" placeholder="min" value="{{ filters.Mq_min }}" />
                 <span>a</span>
-                <input type="number" id="Mq_max" name="Mq_max" placeholder="max" />
+                <input type="number" id="Mq_max" name="Mq_max" placeholder="max" value="{{ filters.Mq_max }}" />
             </div><br />
 
             <button type="submit">Cerca</button>
+            <a href="{% url 'sale:index' %}" class="btn btn-link">Reset</a>
         </form>
     </aside>
 
     <main class="colonna-risultati" id="risultati">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h2>SALE</h2>
-            <button id="openAddSala" style="padding:8px 16px; cursor:pointer;">
+            <button id="openAddSala" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSalaModal">
                 <i class="fa fa-plus"></i> Aggiungi Sala
             </button>
         </div>
@@ -94,9 +87,21 @@
                             </a>
                         </td>
                         <td>
-                        <!-- Qui puoi mettere bottoni per azioni, es: -->
-                        <a href="#">Modifica</a>
-                        <a href="#">Elimina</a>
+                            <a href="#" class="btn btn-sm btn-outline-primary me-1 btn-edit-sala btn-modifica" 
+                               data-bs-toggle="modal" 
+                               data-bs-target="#editSalaModal"
+                               data-codice="{{ sala.codice }}"
+                               data-nome="{{ sala.nome }}"
+                               data-tema="{{ sala.tema }}"
+                               data-mq="{{ sala.mq }}">
+                                <i class="fa fa-edit"></i> Modifica
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-danger btn-delete-sala btn-elimina"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteSalaModal"
+                               data-codice="{{ sala.codice }}">
+                                <i class="fa fa-trash"></i> Elimina
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -105,45 +110,114 @@
     </main>
 </div>
 
-<!-- Modale personalizzato per aggiungi/modifica sala -->
-<div id="salaModal" class="modal-sfondo" style="display:none;">
-    <div class="modal-contenuto">
-        <form id="salaForm">
-            <h3 id="modalTitle">Aggiungi Sala</h3>
-            <input type="hidden" id="form-action" value="add" />
-            <label>
-                Codice Sala (facoltativo):
-                <input type="text" id="form-codice" name="codice" pattern="^S\d{3}$" />
-            </label><br />
-            <label>
-                Nome:
-                <input type="text" id="form-nome" name="nome" required maxlength="100" />
-            </label><br />
-            <label>
-                Tema:
-                <select id="form-tema" name="tema" required>
-                    <option value="">Scegli tema</option>
-                    <option>Cardio</option>
-                    <option>Pesi liberi</option>
-                    <option>Macchine</option>
-                    <option>Corpo libero</option>
-                    <option>Sauna</option>
-                </select>
-            </label><br />
-            <label>
-                Metri Quadrati:
-                <input type="number" id="form-mq" name="mq" required min="1" max="1000" />
-            </label><br />
-            <div>
-                <button type="submit" id="form-submit-btn">Salva</button>
-                <button type="button" id="closeModalBtn">Annulla</button>
+<!-- Modal Aggiungi Sala -->
+<div class="modal fade" id="addSalaModal" tabindex="-1" aria-labelledby="addSalaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSalaModalLabel">Aggiungi Sala</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </form>
+            <form id="addSalaForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="add-form-codice" class="form-label">Codice Sala: (opzionale)</label>
+                        <input type="text" class="form-control" id="add-form-codice" name="codice" pattern="^S\d{3}$" />
+                        <small class="form-text text-muted">Formato: S seguito da 3 numeri (es. S001). Se non specificato, verrà generato automaticamente.</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-form-nome" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="add-form-nome" name="nome" required maxlength="100" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-form-tema" class="form-label">Tema:</label>
+                        <select class="form-select" id="add-form-tema" name="tema" required>
+                            <option value="">Scegli tema</option>
+                            <option>Cardio</option>
+                            <option>Pesi liberi</option>
+                            <option>Macchine</option>
+                            <option>Corpo libero</option>
+                            <option>Sauna</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-form-mq" class="form-label">Metri Quadrati:</label>
+                        <input type="number" class="form-control" id="add-form-mq" name="mq" required min="1" max="1000" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elimina" data-bs-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary btn-modifica">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modifica Sala -->
+<div class="modal fade" id="editSalaModal" tabindex="-1" aria-labelledby="editSalaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSalaModalLabel">Modifica Sala</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editSalaForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-form-codice" class="form-label">Codice Sala:</label>
+                        <input type="text" class="form-control" id="edit-form-codice" name="codice" readonly />
+                        <small class="form-text text-muted">Il codice non può essere modificato</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-form-nome" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="edit-form-nome" name="nome" required maxlength="100" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-form-tema" class="form-label">Tema:</label>
+                        <select class="form-select" id="edit-form-tema" name="tema" required>
+                            <option value="">Scegli tema</option>
+                            <option>Cardio</option>
+                            <option>Pesi liberi</option>
+                            <option>Macchine</option>
+                            <option>Corpo libero</option>
+                            <option>Sauna</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-form-mq" class="form-label">Metri Quadrati:</label>
+                        <input type="number" class="form-control" id="edit-form-mq" name="mq" required min="1" max="1000" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-elimina" data-bs-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary btn-modifica">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Elimina Sala -->
+<div class="modal fade" id="deleteSalaModal" tabindex="-1" aria-labelledby="deleteSalaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteSalaModalLabel">Conferma Eliminazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Sei sicuro di voler eliminare questa sala?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-danger bnt-elimina" id="confirmDelete">Elimina</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/crud_functions.js' %}"></script>
-    <script src="{% static 'js/sale_logic.js' %}"></script>
+    <script src="{% static 'sale_ajax.js' %}"></script>
 {% endblock extra_scripts %}
