@@ -4,6 +4,65 @@ document.addEventListener('DOMContentLoaded', function(){
     const editModal = new bootstrap.Modal(document.getElementById('editSalaModal'));
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteSalaModal'));
     let currentDeleteSala = null;
+    let currentSortColumn = '';
+    let currentSortDirection = 'asc';
+
+    // Funzione per l'ordinamento della tabella
+    window.sortTable = function(column) {
+        const tbody = document.getElementById('risultati-tabella-sale');
+        if (!tbody) return;
+        const table = tbody.closest('table');
+        if (!table) return;
+
+        const headers = Array.from(table.querySelectorAll('thead th'));
+
+        // Rimuovi le icone di ordinamento esistenti
+        headers.forEach(h => {
+            const icon = h.querySelector('.sort-icon');
+            if (icon) icon.textContent = '';
+        });
+
+        // Aggiorna la direzione dell'ordinamento
+        if (currentSortColumn === column) {
+            currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSortColumn = column;
+            currentSortDirection = 'asc';
+        }
+
+        // Trova l'indice della colonna
+        const columnIndex = headers.findIndex(h => h.getAttribute('data-column') === column);
+        if (columnIndex === -1) return;
+
+        // Aggiorna l'icona di ordinamento per la colonna selezionata
+        const activeIcon = headers[columnIndex].querySelector('.sort-icon');
+        if (activeIcon) activeIcon.textContent = currentSortDirection === 'asc' ? ' ▲' : ' ▼';
+
+        // Ottieni le righe del tbody e ordinale
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+            const aCell = a.cells[columnIndex];
+            const bCell = b.cells[columnIndex];
+            const aValue = aCell ? aCell.textContent.trim() : '';
+            const bValue = bCell ? bCell.textContent.trim() : '';
+
+            // Gestione per colonne numeriche
+            if (['mq', 'nFasceOrarie', 'nPrenotazioni'].includes(column)) {
+                const ai = parseInt(aValue.replace(/\D/g, '')) || 0;
+                const bi = parseInt(bValue.replace(/\D/g, '')) || 0;
+                return currentSortDirection === 'asc' ? ai - bi : bi - ai;
+            }
+
+            // Ordinamento alfabetico (natural)
+            return currentSortDirection === 'asc'
+                ? aValue.localeCompare(bValue, undefined, {numeric: true, sensitivity: 'base'})
+                : bValue.localeCompare(aValue, undefined, {numeric: true, sensitivity: 'base'});
+        });
+
+        // Ricostruisci il tbody con le righe ordinate
+        tbody.innerHTML = '';
+        rows.forEach(r => tbody.appendChild(r));
+    };
 
     // Form Aggiungi Submit
     const addSalaForm = document.getElementById('addSalaForm');
@@ -74,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function(){
             } catch (e) {
                 try { el.remove(); } catch (e) {}
             }
-        }, 5000);
+        }, 1850);
     }
 
     // Form Modifica Submit

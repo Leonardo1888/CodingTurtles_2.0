@@ -398,6 +398,23 @@ tbody tr:hover {
   cursor: pointer;
 }
 
+/* ----------------- SORT ICONS (make arrows bright and visible) ----------------- */
+thead th .sort-icon {
+  color: var(--bianco) !important;
+  opacity: 0.98 !important;
+  font-weight: 800;
+  text-shadow: 0 0 4px rgba(0,0,0,0.65);
+  display: inline-block;
+  width: 1.2em;
+  margin-left: 0.35rem;
+  line-height: 1;
+}
+
+/* Slightly increase contrast on hover for the header text + icon */
+thead th.sortable:hover, thead th.sortable:hover .sort-icon {
+  opacity: 1 !important;
+}
+
 tbody td {
   padding: 10px 9px;
   vertical-align: middle;
@@ -507,31 +524,23 @@ th.sortable .sort-icon {
   opacity: 0.3;
 }
 
-
-/* Freccia su (ordinamento crescente) */
-th.sorted-asc .sort-icon {
-  /* MANTIENI: Colore freccia bianca */
-  border-bottom-color: white; 
-  
-  /* 💡 CORREZIONE CHIAVE: Forziamo gli altri lati a essere trasparenti */
-  border-top-color: transparent; 
-  border-left-color: transparent;
-  border-right-color: transparent;
-  
-  opacity: 1;
+.sortable {
+    cursor: pointer;
+    user-select: none;
 }
 
-/* Freccia giù (ordinamento decrescente) */
-th.sorted-desc .sort-icon {
-  /* MANTIENI: Colore freccia bianca */
-  border-top-color: white; 
-  
-  /* 💡 CORREZIONE CHIAVE: Forziamo gli altri lati a essere trasparenti */
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  
-  opacity: 1;
+.sortable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sort-icon {
+    display: inline-block;
+    width: 1em;
+    margin-left: 0.2em;
+}
+
+.sortable u {
+    text-decoration: none;
 }
 
 /* ----------------- SALE.PHP: MODALE ----------------- */
