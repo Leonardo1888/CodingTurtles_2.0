@@ -4,90 +4,124 @@
 {% block title %}Clienti{% endblock %}
 
 {% block content %}
-<div class="contenitore-centrale">
-        <aside class="colonna-filtro">
-        <h3>Filtra i clienti</h3>
-        <form id="filtro-clienti-form" method="get">
-            <label for="Codice">Codice Cliente:</label>
-            <input type="text" id="Codice" name="Codice" value="{{ filters.Codice }}"><br>
+<div class="container-fluid mt-4">
+    <div class="row">
 
-            <label for="Nome">Nome:</label>
-            <input type="text" id="Nome" name="Nome" value="{{ filters.Nome }}"><br>
+        <aside class="col-12 col-lg-3 mb-4 colonna-filtro">
 
-            <label for="Cognome">Cognome:</label>
-            <input type="text" id="Cognome" name="Cognome" value="{{ filters.Cognome }}"><br>
+            <h3 class="h5 mb-3">Filtra i clienti</h3>
 
-            <label for="Cf">Codice Fiscale:</label>
-            <input type="text" id="Cf" name="Cf" value="{{ filters.Cf }}"><br>
+            <form id="filtro-clienti-form" method="get">
 
-            <label>Data di nascita:</label>
-            <div class="input-range">
-                da <input type="date" id="DataNas_min" name="DataNas_min" value="{{ filters.DataNas_min }}">
-                <span>a</span>
+                <label for="Codice">Codice Cliente:</label>
+                <input type="text" id="Codice" name="Codice" value="{{ filters.Codice }}"><br>
+
+                <label for="Nome">Nome:</label>
+                <input type="text" id="Nome" name="Nome" value="{{ filters.Nome }}"><br>
+
+                <label for="Cognome">Cognome:</label>
+                <input type="text" id="Cognome" name="Cognome" value="{{ filters.Cognome }}"><br>
+
+                <label for="Cf">Codice Fiscale:</label>
+                <input type="text" id="Cf" name="Cf" value="{{ filters.Cf }}"><br>
+
+                <label for="DataNas_min">Data di nascita (da):</label>
+                <input type="date" id="DataNas_min" name="DataNas_min" value="{{ filters.DataNas_min }}">
+
+                <label for="DataNas_max">Data di nascita (a):</label>
                 <input type="date" id="DataNas_max" name="DataNas_max" value="{{ filters.DataNas_max }}">
-            </div><br>
 
-            <label for="Indirizzo">Indirizzo:</label>
-            <input type="text" id="Indirizzo" name="Indirizzo" value="{{ filters.Indirizzo }}"><br>
+                <label for="Indirizzo">Indirizzo:</label>
+                <input type="text" id="Indirizzo" name="Indirizzo" value="{{ filters.Indirizzo }}"><br>
 
-            <label for="Tel">Telefono:</label>
-            <input type="text" id="Tel" name="Tel" value="{{ filters.Tel }}"><br>
+                <label for="Tel">Telefono:</label>
+                <input type="text" id="Tel" name="Tel" value="{{ filters.Tel }}"><br>
 
-            <label for="Email">Email:</label>
-            <input type="text" id="Email" name="Email" value="{{ filters.Email }}"><br>
+                <label for="Email">Email:</label>
+                <input type="text" id="Email" name="Email" value="{{ filters.Email }}"><br>
 
-            <button type="submit" class="btn btn-primary">Cerca</button>
-            <a href="{% url 'clienti:index' %}" class="btn btn-link">Reset</a>
-        </form>
-    </aside>
+                <button type="submit" class="btn-modifica">Cerca</button>
+                <a href="{% url 'clienti:index' %}" class="btn-reset">Reset</a>
+            </form>
+        </aside>
 
-        <main class="colonna-risultati" id="risultati">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>CLIENTI</h2>
-        </div>
+        <main class="col-12 col-lg-9" id="risultati">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>CLIENTI</h2>
+            </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="sortable" onclick="sortTable('codice')" data-column="codice"><u>Codice Cliente</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('nome')" data-column="nome"><u>Nome</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('cognome')" data-column="cognome"><u>Cognome</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('cf')" data-column="cf"><u>Codice Fiscale</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('dataNas')" data-column="dataNas"><u>Data di Nascita</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('indirizzo')" data-column="indirizzo"><u>Indirizzo</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('tel')" data-column="tel"><u>Telefono</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('email')" data-column="email"><u>Email</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('nAbbonamenti')" data-column="nAbbonamenti"><u>n.Abb</u><span class="sort-icon"></span></th>
-                    <th class="sortable" onclick="sortTable('nPrenotazioni')" data-column="nPrenotazioni"><u>n.Prenotazioni</u><span class="sort-icon"></span></th>
-                </tr>
-            </thead>
-            <tbody id="risultati-tabella-clienti">
-                {% for cliente in clienti_data %}
-                <tr data-codice="{{ cliente.codice }}">
-                    <td>{{ cliente.codice }}</td>
-                    <td>{{ cliente.nome }}</td>
-                    <td>{{ cliente.cognome }}</td>
-                    <td>{{ cliente.cf }}</td>
-                    <td>{{ cliente.dataNas }}</td>
-                    <td>{{ cliente.indirizzo }}</td>
-                    <td>{{ cliente.tel }}</td>
-                    <td>{{ cliente.email }}</td>
-                    <td>
-                        <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
-                            {{ cliente.n_abb }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
-                            {{ cliente.n_prenotazioni }}
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-    </main>
+            <div class="table-responsive shadow-sm">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('codice')" data-column="codice"
+                                style="cursor: pointer;">
+                                <u>Codice Cliente</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('nome')" data-column="nome"
+                                style="cursor: pointer;">
+                                <u>Nome</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('cognome')" data-column="cognome"
+                                style="cursor: pointer;">
+                                <u>Cognome</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('cf')" data-column="cf" style="cursor: pointer;">
+                                <u>Codice Fiscale</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('dataNas')" data-column="dataNas"
+                                style="cursor: pointer;">
+                                <u>Data di Nascita</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('indirizzo')" data-column="indirizzo"
+                                style="cursor: pointer;">
+                                <u>Indirizzo</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('tel')" data-column="tel" style="cursor: pointer;">
+                                <u>Telefono</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('email')" data-column="email"
+                                style="cursor: pointer;">
+                                <u>Email</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('nAbbonamenti')" data-column="nAbbonamenti"
+                                style="cursor: pointer;">
+                                <u>n.Abb</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('nPrenotazioni')" data-column="nPrenotazioni"
+                                style="cursor: pointer;">
+                                <u>n.Prenotazioni</u><span class="sort-icon"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="risultati-tabella-clienti">
+                        {% for cliente in clienti_data %}
+                        <tr data-codice="{{ cliente.codice }}">
+                            <td>{{ cliente.codice }}</td>
+                            <td>{{ cliente.nome }}</td>
+                            <td>{{ cliente.cognome }}</td>
+                            <td>{{ cliente.cf }}</td>
+                            <td>{{ cliente.dataNas }}</td>
+                            <td>{{ cliente.indirizzo }}</td>
+                            <td>{{ cliente.tel }}</td>
+                            <td>{{ cliente.email }}</td>
+                            <td>
+                                <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
+                                    {{ cliente.n_abb }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
+                                    {{ cliente.n_prenotazioni }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
 </div>
 {% endblock content %}
 

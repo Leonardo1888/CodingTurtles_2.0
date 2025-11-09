@@ -8,46 +8,6 @@
   --nero: #1e1e1e;
 }
 
-/* ----------------- ANIMAZIONE - Spotlight per la colonna filtro ----------------- */
-
-@keyframes filtro-spotlight {
-  0% {
-    /* stato iniziale: fermo */
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  }
-
-  50% {
-    /* sollevamento di x pixel e leggera luminosità */
-    transform: translateY(-8px);
-    box-shadow: 0 0 10px var(--verde-chiaro), 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  100% {
-    /* stato finale: torna alla posizione originale */
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  }
-}
-
-/* ----------------- ANIMAZIONE - Table Glow ----------------- */
-@keyframes table-glow {
-  0% {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Ombra standard */
-  }
-
-  50% {
-    /* Illuminiamo il bordo con un'ombra del verde principale */
-    box-shadow: 0 0 15px var(--verde), 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  100% {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Torna all'ombra standard */
-  }
-}
-
 /* ----------------- RESET ----------------- */
 * {
   margin: 0;
@@ -245,26 +205,15 @@ body {
   }
 }
 
-/* ----------------- CONTENITORE CENTRALE ----------------- */
-
-.contenitore-centrale {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 40px 0;
-  padding: 0 20px;
-}
+/* ----------------- COLONNA FILTRI ----------------- */
 
 .colonna-filtro {
-  flex: 0 0 10%;
   background-color: var(--verde-chiaro);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   animation: filtro-spotlight 1s ease-in-out 0.1s 1;
   transform-origin: center center;
-  position: sticky;
   top: 20px;
   margin-left: -10%;
   height: fit-content;
@@ -277,8 +226,8 @@ body {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  margin-bottom: 15px;
-  border-radius: 5px;
+  margin-bottom: 10px;
+  border-radius: 7px;
   border: 1px solid #ccc;
   appearance: none;
   background-color: var(--bianco);
@@ -296,31 +245,31 @@ body {
   background-color: var(--verde-scuro);
 }
 
+.colonna-filtro a.btn-reset {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0; /* Grigio chiaro */
+  color: #333;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.colonna-filtro a.btn-reset:hover {
+  background-color: #e0e0e0;
+}
+
+/* ----------------- COLONNA RISULTATI (tabella)  ----------------- */
+
 .colonna-risultati {
-  flex: 0 0 90%;
-  /* 9 su 12 */
   background-color: var(--bianco);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-  bottom:0;
-  overflow-y:scroll;
-  overflow-x:scroll;
-  max-height: 750px; 
-  max-width: fit-content;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .contenitore-centrale {
-    flex-direction: column;
-  }
-
-  .colonna-filtro,
-  .colonna-risultati {
-    flex: 1 1 100%;
-  }
 }
 
 .input-range {
@@ -333,45 +282,65 @@ body {
   width: 120px;
 }
 
-/* ----------------- TABELLA DATI ----------------- */
+/* ----------------- TABELLA DATI (Adattato per Bootstrap) ----------------- */
 
-table {
-  /* Struttura base e animazione */
-  border-collapse: collapse;
+.table-responsive {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  text-align: left;
-  animation: table-glow 0.5s ease-in-out 0.5s 1;
-  margin-top: 5%; 
+  margin-top: 20px; 
 }
 
-thead {
+.table-responsive {
+  border-radius: 10px;
+  overflow: hidden; /* nasconde gli angoli della tabella interna */
+}
+
+.table-responsive thead {
   background-color: var(--verde-scuro);
-  color: var(--bianco);
   position: sticky; 
-  z-index: 2;
-  top: -20px;
+  top: 0; 
+  z-index: 10; 
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); 
 }
 
-thead th {
+.table-responsive thead th {
   padding: 12px;
   font-weight: 600;
   text-transform: uppercase;
+  background-color: var(--verde-scuro);
+  color: white;
 }
 
-tbody tr {
-  background-color: var(--bianco);
-  border-bottom: 1px solid var(--grigio-chiaro);
-  transition: background-color 0.3s ease;
+/* Righe alternate */
+.table-responsive .table tbody tr:nth-child(even) td {
+  background-color: var(--grigio-chiaro) !important; 
+}
+.table-responsive .table tbody tr:nth-child(odd) td {
+  background-color: var(--bianco) !important; 
 }
 
-tbody tr:nth-child(even) {
-  background-color: var(--grigio-chiaro);
-}
-
-tbody tr:hover {
-  background-color: var(--verde-chiaro);
+.table-responsive .table tbody tr:hover {
+  background-color: var(--grigio-chiaro) !important; 
   cursor: pointer;
+}
+
+.table-responsive .table tbody tr td {
+  padding: 12px; 
+  vertical-align: middle;
+}
+
+.table-responsive .table tbody tr td a {
+  color: var(--verde-scuro);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.table-responsive .table tbody tr td a:hover {
+  text-decoration: underline;
+}
+
+.table-responsive .table {
+    min-width: 100%;
 }
 
 /* ----------------- SORT ICONS (make arrows bright and visible) ----------------- */
@@ -626,7 +595,6 @@ tbody td:last-child button+button {
 
 .hero-image {
   width: 100%;
-  max-width: 820px;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 12px;
@@ -639,8 +607,6 @@ tbody td:last-child button+button {
   height: 1px;
   background: linear-gradient(90deg, transparent, #d1fae5, transparent);
   margin: 28px auto;
-  min-width: 0; /* Permette la corretta contrazione nel flex container */
-  overflow-x: hidden; 
 }
 
 /* Sezioni a due colonne */
