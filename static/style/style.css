@@ -359,24 +359,6 @@ thead th {
   text-transform: uppercase;
 }
 
-thead th:first-child {
-  position: sticky;
-  left: -20px;
-  background-color: var(--verde-scuro); 
-  z-index: 3; /* Deve essere maggiore di thead (z-index: 2) per stare sopra */
-}
-
-tbody td:first-child {
-  position: sticky;
-  left: -20px;
-  background-color: var(--bianco); 
-  z-index: 1; /* sotto l'intestazione (z-index: 3) */
-}
-
-tbody tr:nth-child(even) td:first-child {
-  background-color: var(--grigio-chiaro);
-}
-
 tbody tr {
   background-color: var(--bianco);
   border-bottom: 1px solid var(--grigio-chiaro);

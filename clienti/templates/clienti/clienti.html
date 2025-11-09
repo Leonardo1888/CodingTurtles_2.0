@@ -3,99 +3,94 @@
 
 {% block title %}Clienti{% endblock %}
 
-<?php // Verifica che quando clienti.php viene aperta non ci sia un valore per la GET.
-$cliente_filtro = '';
-if (isset($_GET['codice'])) {
-    $codiceCliente_filtro = htmlspecialchars($_GET['codice']);
-}
-?>
-
 {% block content %}
 <div class="contenitore-centrale">
-    <aside class="colonna-filtro">
+        <aside class="colonna-filtro">
         <h3>Filtra i clienti</h3>
-        <form id="filtro-clienti-form">
+        <form id="filtro-clienti-form" method="get">
+            <label for="Codice">Codice Cliente:</label>
+            <input type="text" id="Codice" name="Codice" value="{{ filters.Codice }}"><br>
 
-            <label for="codice">Codice Cliente:</label>
-            <input type="text" id="Codice" name="Codice" value="<?php echo $codiceCliente_filtro ?>"><br>
+            <label for="Nome">Nome:</label>
+            <input type="text" id="Nome" name="Nome" value="{{ filters.Nome }}"><br>
 
-            <label for="nome">Nome:</label>
-            <input type="text" id="Nome" name="Nome"><br>
+            <label for="Cognome">Cognome:</label>
+            <input type="text" id="Cognome" name="Cognome" value="{{ filters.Cognome }}"><br>
 
-            <label for="cognome">Cognome:</label>
-            <input type="text" id="Cognome" name="Cognome"><br>
-
-            <label for="cf">Codice fiscale:</label>
-            <input type="text" id="Cf" name="Cf"><br>
+            <label for="Cf">Codice Fiscale:</label>
+            <input type="text" id="Cf" name="Cf" value="{{ filters.Cf }}"><br>
 
             <label>Data di nascita:</label>
             <div class="input-range">
-                <input type="date" id="DataNas_min" name="DataNas_min" placeholder="da">
-                <span>-</span>
-                <input type="date" id="DataNas_max" name="DataNas_max" placeholder="a">
+                da <input type="date" id="DataNas_min" name="DataNas_min" value="{{ filters.DataNas_min }}">
+                <span>a</span>
+                <input type="date" id="DataNas_max" name="DataNas_max" value="{{ filters.DataNas_max }}">
             </div><br>
 
-            <label for="indirizzo">Indirizzo:</label>
-            <input type="text" id="Indirizzo" name="Indirizzo"><br>
+            <label for="Indirizzo">Indirizzo:</label>
+            <input type="text" id="Indirizzo" name="Indirizzo" value="{{ filters.Indirizzo }}"><br>
 
-            <label for="tel">Telefono:</label>
-            <input type="text" id="Tel" name="Tel"><br>
+            <label for="Tel">Telefono:</label>
+            <input type="text" id="Tel" name="Tel" value="{{ filters.Tel }}"><br>
 
-            <label for="email">Email:</label>
-            <input type="text" id="Email" name="Email"><br>
+            <label for="Email">Email:</label>
+            <input type="text" id="Email" name="Email" value="{{ filters.Email }}"><br>
 
-            <button type="submit">Cerca</button>
+            <button type="submit" class="btn btn-primary">Cerca</button>
+            <a href="{% url 'clienti:index' %}" class="btn btn-link">Reset</a>
         </form>
     </aside>
 
-    <main class="colonna-risultati" id="risultati">
-        <h2>CLIENTI</h2>
+        <main class="colonna-risultati" id="risultati">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>CLIENTI</h2>
+        </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice Cliente</th>
-                        <th>Nome</th>
-                        <th>Cognome</th>
-                        <th>Codice Fiscale</th>
-                        <th>Data di Nascita</th>
-                        <th>Indirizzo</th>
-                        <th>Tel <i class="fa-solid fa-phone-volume"></i></th>
-                        <th>Email <i class="fa-solid fa-envelope"></i></th>
-                        <th>n.Abb</th>
-                        <th>n.Prenotazioni</th>
-                    </tr>
-                </thead>
-                <tbody id="risultati-tabella-clienti">
-                    {% for cliente in clienti_data %}
-                    <tr>
-                        <td>{{ cliente.codice }}</td>
-                        <td>{{ cliente.nome }}</td>
-                        <td>{{ cliente.cognome }}</td>
-                        <td>{{ cliente.cf }}</td>
-                        <td>{{ cliente.dataNas }}</td>
-                        <td>{{ cliente.indirizzo }}</td>
-                        <td>{{ cliente.tel }}</td>
-                        <td>{{ cliente.email }}</td>
-                         <td>    
-                            <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
-                                {{ cliente.n_abb }}
-                            </a>
-                        </td>
-                        <td>    
-                            <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
-                                {{ cliente.n_prenotazioni }}
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <table>
+            <thead>
+                <tr>
+                    <th class="sortable" onclick="sortTable('codice')" data-column="codice"><u>Codice Cliente</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('nome')" data-column="nome"><u>Nome</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('cognome')" data-column="cognome"><u>Cognome</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('cf')" data-column="cf"><u>Codice Fiscale</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('dataNas')" data-column="dataNas"><u>Data di Nascita</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('indirizzo')" data-column="indirizzo"><u>Indirizzo</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('tel')" data-column="tel"><u>Telefono</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('email')" data-column="email"><u>Email</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('nAbbonamenti')" data-column="nAbbonamenti"><u>n.Abb</u><span class="sort-icon"></span></th>
+                    <th class="sortable" onclick="sortTable('nPrenotazioni')" data-column="nPrenotazioni"><u>n.Prenotazioni</u><span class="sort-icon"></span></th>
+                </tr>
+            </thead>
+            <tbody id="risultati-tabella-clienti">
+                {% for cliente in clienti_data %}
+                <tr data-codice="{{ cliente.codice }}">
+                    <td>{{ cliente.codice }}</td>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.cognome }}</td>
+                    <td>{{ cliente.cf }}</td>
+                    <td>{{ cliente.dataNas }}</td>
+                    <td>{{ cliente.indirizzo }}</td>
+                    <td>{{ cliente.tel }}</td>
+                    <td>{{ cliente.email }}</td>
+                    <td>
+                        <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
+                            {{ cliente.n_abb }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
+                            {{ cliente.n_prenotazioni }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
     </main>
 </div>
 {% endblock content %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/crud_functions.js' %}"></script>
-    <script src="{% static 'js/clienti_logic.js' %}"></script>
+<script src="{% static 'clienti/clienti_logic.js' %}"></script>
 {% endblock extra_scripts %}

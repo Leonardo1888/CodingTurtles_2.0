@@ -103,7 +103,6 @@
                 </tr>
                 {% endfor %}
             </tbody>
-
         </table>
     </main>
 </div>
@@ -200,53 +199,5 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<script src="{% static 'sale_ajax.js' %}"></script>
-<script>
-    // Gestione modali custom senza Bootstrap
-    document.addEventListener('DOMContentLoaded', function () {
-        function closeAllModals() {
-            document.querySelectorAll('.modal-sfondo').forEach(function (modal) {
-                modal.style.display = 'none';
-            });
-        }
-        // Apri modale aggiungi sala
-        document.getElementById('openAddSala').addEventListener('click', function () {
-            closeAllModals();
-            document.getElementById('addSalaModal').style.display = 'flex';
-        });
-        // Apri modale modifica sala
-        document.querySelectorAll('.open-edit-modal').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                closeAllModals();
-                // Popola i campi del form
-                document.getElementById('edit-form-codice').value = btn.getAttribute('data-codice');
-                document.getElementById('edit-form-nome').value = btn.getAttribute('data-nome');
-                document.getElementById('edit-form-tema').value = btn.getAttribute('data-tema');
-                document.getElementById('edit-form-mq').value = btn.getAttribute('data-mq');
-                document.getElementById('editSalaModal').style.display = 'flex';
-            });
-        });
-        // Apri modale elimina sala
-        document.querySelectorAll('.open-delete-modal').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                closeAllModals();
-                document.getElementById('deleteSalaModal').style.display = 'flex';
-            });
-        });
-        // Chiudi modali
-        document.querySelectorAll('.close-modal').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                closeAllModals();
-            });
-        });
-        // Click su overlay chiude modale
-        document.querySelectorAll('.modal-sfondo').forEach(function (overlay) {
-            overlay.addEventListener('mousedown', function (e) {
-                if (e.target === overlay) closeAllModals();
-            });
-        });
-    });
-</script>
+<script src="{% static 'sale/sale_logic.js' %}"></script>
 {% endblock extra_scripts %}
