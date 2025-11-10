@@ -3,88 +3,99 @@
 
 {% block title %}Abbonamenti{% endblock %}
 
-    <?php include("includes/header.php"); ?>
-    <?php include("includes/navbar.php"); ?>
-
-    <?php // Verifica che quando abbonamenti.php viene aperta non ci sia un valore per la GET.
-        $cliente_filtro = '';
-        if (isset($_GET['cliente'])) {
-            $cliente_filtro = htmlspecialchars($_GET['cliente']);
-        }
-        $abbonamento_filtro = '';
-        if (isset($_GET['abbonamento'])) {
-            $abbonamento_filtro = htmlspecialchars($_GET['abbonamento']);
-        }
-    ?>
-
 {% block content %}
-<div class="contenitore-centrale">
-    <aside class="colonna-filtro">
-        <h3>Filtra gli abbonamenti</h3>
-        <form id="filtro-abbonamenti-form">
-            <label for="nAbb">Codice Abbonamento:</label>
-            <input type="text" id="nAbb" name="nAbb" value="<?php echo $abbonamento_filtro ?>"><br>
+<div class="container-fluid mt-4">
+    <div class="row">
 
-            <label for="cliente">Codice Cliente:</label>
-            <input type="text" id="cliente" name="cliente" value="<?php echo $cliente_filtro; ?>"><br>
+        <aside class="col-12 col-lg-3 mb-4 colonna-filtro">
 
-            <label>Data di inizio:</label>
-            <div class="input-range">
-                <input type="date" id="inizio_abbonamento_min" name="inizio_abbonamento_min">
-                <span>-</span>
-                <input type="date" id="inizio_abbonamento_max" name="inizio_abbonamento_max">
-            </div><br>
+            <h3 class="h5 mb-3">Filtra gli abbonamenti</h3>
 
-            <label>Data di fine:</label>
-            <div class="input-range">
-                <input type="date" id="fine_abbonamento_min" name="fine_abbonamento_min">
-                <span>-</span>
-                <input type="date" id="fine_abbonamento_max" name="fine_abbonamento_max">
-            </div><br>
+            <form id="filtro-abbonamenti-form" method="get">
 
-            <label>Prezzo:</label>
-            <div class="input-range">
-                da <input type="number" id="prezzo_min" name="prezzo_min" placeholder="min">
-                <span>a</span>
-                <input type="number" id="prezzo_max" name="prezzo_max" placeholder="max">
-            </div><br>
+                <label for="nAbb">Codice Abbonamento:</label>
+                <input type="text" id="nAbb" name="nAbb" value="{{ filters.nAbb }}"><br>
 
-            <button type="submit">Cerca</button>
-        </form>
-    </aside>
+                <label for="cliente">Codice Cliente:</label>
+                <input type="text" id="cliente" name="cliente" value="{{ filters.cliente }}"><br>
 
-    <main class="colonna-risultati" id="risultati">
-        <h2>ABBONAMENTI</h2>
+                <label>Data di inizio:</label>
+                <div class="input-range">
+                    <input type="date" id="inizio_abbonamento_min" name="inizio_abbonamento_min" value="{{ filters.inizio_abbonamento_min }}">
+                    <span>-</span>
+                    <input type="date" id="inizio_abbonamento_max" name="inizio_abbonamento_max" value="{{ filters.inizio_abbonamento_max }}">
+                </div><br>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Codice Cliente</th>
-                        <th>Data Inizio</th>
-                        <th>Data Fine</th>
-                        <th>Prezzo</th>
-                    </tr>
-                </thead>
-                <tbody id="risultati-tabella-abbonamenti">
-                    {% for abbonamento in abbonamenti_data %}
-                    <tr>
-                        <td>{{ abbonamento.nAbb }}</td>
-                        <td>{{ abbonamento.cliente }}</td>
-                        <td>{{ abbonamento.inizio }}</td>
-                        <td>{{ abbonamento.fine }}</td>
-                        <td>{{ abbonamento.prezzo }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+                <label>Data di fine:</label>
+                <div class="input-range">
+                    <input type="date" id="fine_abbonamento_min" name="fine_abbonamento_min" value="{{ filters.fine_abbonamento_min }}">
+                    <span>-</span>
+                    <input type="date" id="fine_abbonamento_max" name="fine_abbonamento_max" value="{{ filters.fine_abbonamento_max }}">
+                </div><br>
+
+                <label>Prezzo:</label>
+                <div class="input-range">
+                    da <input type="number" id="prezzo_min" name="prezzo_min" placeholder="min" value="{{ filters.prezzo_min }}">
+                    <span>a</span>
+                    <input type="number" id="prezzo_max" name="prezzo_max" placeholder="max" value="{{ filters.prezzo_max }}">
+                </div><br>
+
+                <button type="submit" class="btn-modifica">Cerca</button>
+                <a href="{% url 'abbonamenti:index' %}" class="btn-reset">Reset</a>
+            </form>
+        </aside>
+
+        <main class="col-12 col-lg-9" id="risultati">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>ABBONAMENTI</h2>
+            </div>
+
+            <div class="table-responsive shadow-sm table-wrapper">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('nAbb')" data-column="nAbb"
+                                style="cursor: pointer;">
+                                <u>Codice</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('cliente')" data-column="cliente"
+                                style="cursor: pointer;">
+                                <u>Codice Cliente</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('inizio')" data-column="inizio"
+                                style="cursor: pointer;">
+                                <u>Data Inizio</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('fine')" data-column="fine"
+                                style="cursor: pointer;">
+                                <u>Data Fine</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('prezzo')" data-column="prezzo"
+                                style="cursor: pointer;">
+                                <u>Prezzo</u><span class="sort-icon"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="risultati-tabella-abbonamenti">
+                        {% for abbonamento in abbonamenti_data %}
+                        <tr>
+                            <td>{{ abbonamento.nAbb }}</td>
+                            <td>{{ abbonamento.cliente }}</td>
+                            <td>{{ abbonamento.inizio }}</td>
+                            <td>{{ abbonamento.fine }}</td>
+                            <td>{{ abbonamento.prezzo }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
 </div>
 {% endblock content %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/crud_functions.js' %}"></script>
-    <script src="{% static 'js/abbonamenti_logic.js' %}"></script>
+<script src="{% static 'js/crud_functions.js' %}"></script>
+<script src="{% static 'js/abbonamenti_logic.js' %}"></script>
 {% endblock extra_scripts %}
