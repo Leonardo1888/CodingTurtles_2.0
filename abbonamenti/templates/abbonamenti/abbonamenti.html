@@ -60,7 +60,7 @@
                             </th>
                             <th class="sortable" onclick="sortTable('cliente')" data-column="cliente"
                                 style="cursor: pointer;">
-                                <u>Codice Cliente</u><span class="sort-icon"></span>
+                                <u>Cliente</u><span class="sort-icon"></span>
                             </th>
                             <th class="sortable" onclick="sortTable('inizio')" data-column="inizio"
                                 style="cursor: pointer;">
@@ -96,6 +96,5 @@
 {% endblock content %}
 
 {% block extra_scripts %}
-<script src="{% static 'js/crud_functions.js' %}"></script>
-<script src="{% static 'js/abbonamenti_logic.js' %}"></script>
+<script src="{% static 'abbonamenti/abbonamenti_logic.js' %}"></script>
 {% endblock extra_scripts %}
