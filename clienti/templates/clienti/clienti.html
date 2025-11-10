@@ -106,7 +106,7 @@
                             <td>{{ cliente.tel }}</td>
                             <td>{{ cliente.email }}</td>
                             <td>
-                                <a href="{% url 'abbonamenti:abbonamenti' cliente.codice %}">
+                                <a href="{% url 'abbonamenti:index' %}?cliente={{ cliente.codice|urlencode }}">
                                     {{ cliente.n_abb }}
                                 </a>
                             </td>

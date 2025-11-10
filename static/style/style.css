@@ -248,6 +248,31 @@ body {
   font-weight: bold;
 }
 
+
+/* INIZIO ----- CHECKBOX ABBONAMENTI ATTIVI */
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  appearance: checkbox;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0 10px 0 0;
+  padding: 0;
+  vertical-align: middle;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #cfcfcf;
+  box-sizing: border-box;
+}
+label.checkbox-inline, .form-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+input[type="checkbox"] { width: auto !important; }
+/* FINE ----- CHECKBOX ABBONAMENTI ATTIVI */
+
 .colonna-filtro button:hover {
   background-color: var(--verde-scuro);
 }
