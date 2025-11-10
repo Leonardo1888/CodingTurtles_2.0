@@ -2,6 +2,7 @@ from django.shortcuts import render
 from clienti.models import Abbonamento
 from django.utils.timezone import now
 import re
+from django.db.models import Q
 
 def index(request):
     abbonamenti = Abbonamento.objects.all().order_by('nAbb')
@@ -19,7 +20,11 @@ def index(request):
     if nAbb:
         abbonamenti = abbonamenti.filter(nAbb__icontains=nAbb)
     if cliente:
-        abbonamenti = abbonamenti.filter(cliente__codice__icontains=cliente)
+        abbonamenti = abbonamenti.filter(
+            Q(cliente__codice__icontains=cliente) |
+            Q(cliente__nome__icontains=cliente) |
+            Q(cliente__cognome__icontains=cliente)
+        )
     if inizio_min:
         abbonamenti = abbonamenti.filter(inizio__gte=inizio_min)
     if inizio_max:

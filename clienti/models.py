@@ -2,7 +2,7 @@ from django.db import models
 
 class Cliente(models.Model): # codice, nome, cognome, cf, dataNas, indirizzo, tel, email
     codice = models.CharField(
-        max_length=5, # Aumentato a 5 per codici come C001
+        max_length=5, #  5 per codici come C001
         primary_key=True,
         verbose_name="Codice Cliente",
         unique=True
