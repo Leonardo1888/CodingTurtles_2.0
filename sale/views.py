@@ -56,7 +56,6 @@ def sale_create(request):
     sala.save()
     return JsonResponse({"success": True, "message": f"Sala '{codice}' aggiunta con successo", "data": {"codice": codice, "nome": nome, "tema": tema, "mq": mq}})
 
-
 @csrf_exempt
 def sale_update(request):
     """Aggiorna una sala via POST AJAX."""
@@ -178,3 +177,4 @@ def index(request):
     }
 
     return render(request, "sale/sale.html", {"sale_data": sale_data, "themes": themes, "filters": filters})
+

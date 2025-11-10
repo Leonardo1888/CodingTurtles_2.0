@@ -4,70 +4,88 @@
 {% block title %}Fasce Orarie{% endblock %}
 
 {% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
 
-<div class="contenitore-centrale">
-    <aside class="colonna-filtro">
-        <h3>Filtra le Fasce Orarie</h3>
-        <form id="filtro-fasce_orarie-form">
-            <label for="sala">Codice Sala:</label>
-            <input type="text" id="sala" name="sala" value="<?php echo $fasce_filtro ?>"><br>
+        <aside class="col-12 col-lg-3 mb-4 colonna-filtro">
+            <h3 class="h5 mb-3">Filtra le Fasce Orarie</h3>
+            <form id="filtro-fasce_orarie-form" method="get">
 
-            <label>Data:</label>
-            <div class="input-range">
-                <input type="date" id="data_inizio" name="data_inizio">
-                <span>-</span>
-                <input type="date" id="data_fine" name="data_fine">
-            </div><br>
+                <label for="sala">Codice Sala:</label>
+                <input type="text" id="sala" name="sala" value="{{ filters.sala }}"><br>
 
-            <label>Ora:</label>
-            <div class="input-range">
-                <input type="time" id="ora_inizio" name="ora_inizio">
-                <span>-</span>
-                <input type="time" id="ora_fine" name="ora_fine">
-            </div><br>
+                <label for="data_inizio">Data (da):</label>
+                <input type="date" id="data_inizio" name="data_inizio" value="{{ filters.data_inizio }}">
 
-            <label>Durata:</label>
-            <div class="input-range">
-                da <input type="number" id="durata_inizio" name="durata_inizio" placeholder="min">
-                <span>a</span>
-                <input type="number" id="durata_fine" name="durata_fine" placeholder="max">
-            </div><br>
+                <label for="data_fine">Data (a):</label>
+                <input type="date" id="data_fine" name="data_fine" value="{{ filters.data_fine }}">
 
-            <button type="submit">Cerca</button>
-        </form>
-    </aside>
+                <label for="ora_inizio">Ora (da):</label>
+                <input type="time" id="ora_inizio" name="ora_inizio" value="{{ filters.ora_inizio }}">
 
-    <main class="colonna-risultati" id="risultati">
-        <h2>FASCE ORARIE</h2>
+                <label for="ora_fine">Ora (a):</label>
+                <input type="time" id="ora_fine" name="ora_fine" value="{{ filters.ora_fine }}">
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice Sala</th>
-                        <th>Data</th>
-                        <th>Ora</th>
-                        <th>Durata</th>
-                    </tr>
-                </thead>
-                <tbody id="risultati-tabella-fasce_orarie">
-                    {% for fascia_oraria in fasce_orarie_data %}
-                    <tr>
-                        <td>{{ fascia_oraria.sala }}</td>
-                        <td>{{ fascia_oraria.data }}</td>
-                        <td>{{ fascia_oraria.ora }}</td>
-                        <td>{{ fascia_oraria.durata }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+                <label>Durata (min):</label>
+                <input type="number" id="durata_inizio" name="durata_inizio" value="{{ filters.durata_inizio }}" placeholder="min">
+
+                <label>Durata (max):</label>
+                <input type="number" id="durata_fine" name="durata_fine" value="{{ filters.durata_fine }}" placeholder="max">
+
+                <button type="submit" class="btn-modifica">Cerca</button>
+                <a href="{% url 'fasce_orarie:index' %}" class="btn-reset">Reset</a>
+            </form>
+        </aside>
+
+        <main class="col-12 col-lg-9" id="risultati">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>FASCE ORARIE</h2>
+            </div>
+
+            <div class="table-responsive shadow-sm table-wrapper">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('sala')" data-column="sala"
+                                style="cursor: pointer;">
+                                <u>Codice Sala</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('data')" data-column="data"
+                                style="cursor: pointer;">
+                                <u>Data</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('ora')" data-column="ora"
+                                style="cursor: pointer;">
+                                <u>Ora</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('durata')" data-column="durata"
+                                style="cursor: pointer;">
+                                <u>Durata</u><span class="sort-icon"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="risultati-tabella-fasce_orarie">
+                        {% for fascia_oraria in fasce_orarie_data %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'sale:index' %}?Codice={{ fascia_oraria.codice_sala|urlencode }}">
+                                    {{ fascia_oraria.sala }}
+                                </a>
+                            </td>
+                            <td>{{ fascia_oraria.data }}</td>
+                            <td>{{ fascia_oraria.ora }}</td>
+                            <td>{{ fascia_oraria.durata }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
 </div>
-
 {% endblock content %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/crud_functions.js' %}"></script>
-    <script src="{% static 'js/sale_logic.js' %}"></script>
+<script src="{% static 'fasce_orarie/fasce_orarie_logic.js' %}"></script>
 {% endblock extra_scripts %}

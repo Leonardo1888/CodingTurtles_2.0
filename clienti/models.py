@@ -7,7 +7,7 @@ class Cliente(models.Model): # codice, nome, cognome, cf, dataNas, indirizzo, te
         verbose_name="Codice Cliente",
         unique=True
     ) 
-    
+
     nome = models.CharField(max_length=50, verbose_name="Nome")
     cognome = models.CharField(max_length=50, verbose_name="Cognome")
     cf = models.CharField(max_length=16, verbose_name="Codice Fiscale")

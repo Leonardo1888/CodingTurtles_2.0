@@ -11,7 +11,7 @@ class Sala(models.Model): # codice, nome, tema, mq
         ordering = ['codice']  # Ordina le sale per codice di default
 
     def __str__(self):
-        return f"{self.nome}"
+        return f"({self.codice}) - {self.nome}"
 
 class FasciaOraria(models.Model): # sala, data, ora, durata
 
@@ -32,8 +32,8 @@ class Prenotazione(models.Model): # nProg, cliente, sala, data, ora, posto, abbo
     nProg = models.AutoField(primary_key=True, verbose_name="Numero Progressivo", unique=True)
     
     cliente = models.CharField(max_length=4, verbose_name="Codice Cliente")
-   
     sala = models.ForeignKey(Sala, on_delete=models.CASCADE, verbose_name="Codice Sala")
+    
     data = models.DateField(verbose_name="Data")
     ora = models.TimeField(verbose_name="Ora")
     posto = models.IntegerField(verbose_name="Posto")

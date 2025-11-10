@@ -111,7 +111,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{% url 'prenotazioni:prenotazioni_cliente' cliente.codice %}">
+                                <a href="{% url 'prenotazioni:index' %}?cliente={{ cliente.codice|urlencode }}">
                                     {{ cliente.n_prenotazioni }}
                                 </a>
                             </td>

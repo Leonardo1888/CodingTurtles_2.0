@@ -5,75 +5,114 @@
 
 {% block content %}
 
-<div class="contenitore-centrale">
-    <aside class="colonna-filtro">
-        <h3>Filtra le Prenotazioni</h3>
-        <form id="filtro-prenotazioni-form">
-            <label for="cliente">Codice Cliente:</label>
-            <input type="text" id="cliente" name="cliente" value="<?php echo $prenotazioni_filtro_cliente ?>"><br>
+<div class="container-fluid mt-4">
+    <div class="row">
 
-            <label for="sala">Codice Sala:</label>
-            <input type="text" id="sala" name="sala" value="<?php echo $prenotazioni_filtro_sala ?>"><br>
+        <aside class="col-12 col-lg-3 mb-4 colonna-filtro">
+            <h3 class="h5 mb-3">Filtra le Prenotazioni</h3>
+            <form id="filtro-prenotazioni-form" method="get">
+                <label for="cliente">Codice Cliente:</label>
+                <input type="text" id="cliente" name="cliente" value="{{ filters.cliente }}"><br>
 
-            <label>Data:</label>
-            <div class="input-range">
-                <input type="date" id="inizio_prenotazione_min" name="inizio_prenotazione_min">
-                <span>-</span>
-                <input type="date" id="inizio_prenotazione_max" name="inizio_prenotazione_max">
-            </div><br>
+                <label for="sala">Codice Sala:</label>
+                <input type="text" id="sala" name="sala" value="{{ filters.sala }}"><br>
 
-            <label>Ora:</label>
-            <div class="input-range">
-                <input type="time" id="ora_prenotazione_min" name="ora_prenotazione_min">
-                <span>-</span>
-                <input type="time" id="ora_prenotazione_max" name="ora_prenotazione_max">
-            </div><br>
+                <label>Data:</label>
+                <div class="input-range">
+                    <input type="date" id="inizio_prenotazione_min" name="inizio_prenotazione_min"
+                        value="{{ filters.inizio_prenotazione_min }}" style="max-width: 15vh;">
+                    <span>-</span>
+                    <input type="date" id="inizio_prenotazione_max" name="inizio_prenotazione_max"
+                        value="{{ filters.inizio_prenotazione_max }}" style="max-width: 15vh;">
+                </div><br>
 
-            <label>Posto:</label>
-            <input type="text" id="posto" name="posto"><br>
+                <label>Ora:</label>
+                <div class="input-range">
+                    <input type="time" id="ora_prenotazione_min" name="ora_prenotazione_min"
+                        value="{{ filters.ora_prenotazione_min }}" style="max-width: 15vh;">
+                    <span>-</span>
+                    <input type="time" id="ora_prenotazione_max" name="ora_prenotazione_max"
+                        value="{{ filters.ora_prenotazione_max }}" style="max-width: 15vh;">
+                </div><br>
 
-            <label for="abbonamento">Codice Abbonamento:</label>
-            <input type="text" id="abbonamento" name="abbonamento"><br>
+                <label for="posto">Posto:</label>
+                <input type="text" id="posto" name="posto" value="{{ filters.posto }}"><br>
 
-            <button type="submit">Cerca</button>
-        </form>
-    </aside>
+                <label for="abbonamento">Codice Abbonamento:</label>
+                <input type="text" id="abbonamento" name="abbonamento" value="{{ filters.abbonamento }}"><br>
 
-    <main class="colonna-risultati" id="risultati">
-        <h2>PRENOTAZIONI</h2>
+                <button type="submit" class="btn-modifica">Cerca</button>
+                <a href="{% url 'prenotazioni:index' %}" class="btn-reset">Reset</a>
+            </form>
+        </aside>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice Cliente</th>
-                        <th>Codice Sala</th>
-                        <th>Data</th>
-                        <th>Ora</th>
-                        <th>Posto</th>
-                        <th>Abbonamento usato</th>
-                    </tr>
-                </thead>
-                <tbody id="risultati-tabella-prenotazioni">
-                    {% for prenotazione in prenotazioni_data %}
-                    <tr>
-                        <td>{{ prenotazione.cliente }}</td>
-                        <td>{{ prenotazione.sala }}</td>
-                        <td>{{ prenotazione.data }}</td>
-                        <td>{{ prenotazione.ora }}</td>
-                        <td>{{ prenotazione.posto }}</td>
-                        <td>{{ prenotazione.abbonamento }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+        <main class="col-12 col-lg-9" id="risultati">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>PRENOTAZIONI</h2>
+            </div>
+
+            <div class="table-responsive shadow-sm table-wrapper">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable('cliente')" data-column="cliente"
+                                style="cursor: pointer;">
+                                <u>Codice Cliente</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('sala')" data-column="sala"
+                                style="cursor: pointer;">
+                                <u>Codice Sala</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('data')" data-column="data"
+                                style="cursor: pointer;">
+                                <u>Data</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('ora')" data-column="ora" style="cursor: pointer;">
+                                <u>Ora</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('posto')" data-column="posto"
+                                style="cursor: pointer;">
+                                <u>Posto</u><span class="sort-icon"></span>
+                            </th>
+                            <th class="sortable" onclick="sortTable('abbonamento')" data-column="abbonamento"
+                                style="cursor: pointer;">
+                                <u>Abbonamento usato</u><span class="sort-icon"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="risultati-tabella-prenotazioni">
+                        {% for prenotazione in prenotazioni_data %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'clienti:index' %}?Codice={{ prenotazione.cliente|urlencode }}">
+                                    {{ prenotazione.cliente }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'sale:index' %}?Codice={{ prenotazione.codice_sala|urlencode }}">
+                                    {{ prenotazione.sala }}
+                                </a>
+                            </td>
+                            <td>{{ prenotazione.data }}</td>
+                            <td>{{ prenotazione.ora }}</td>
+                            <td>{{ prenotazione.posto }}</td>
+                           <td>
+                                <a href="{% url 'abbonamenti:index' %}?nAbb={{ prenotazione.abbonamento|urlencode }}">
+                                    {{ prenotazione.abbonamento }}
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
 </div>
 
 {% endblock content %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/crud_functions.js' %}"></script>
-    <script src="{% static 'js/sale_logic.js' %}"></script>
+<script src="{% static 'prenotazioni/prenotazioni_logic.js' %}"></script>
 {% endblock extra_scripts %}

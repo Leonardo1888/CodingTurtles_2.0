@@ -1,8 +1,9 @@
 from django.urls import path
 from . import views
 
-#aggiunto sala/ o cliente/ all'inizio url per distinguere
+app_name = "prenotazioni"  # serve per {% url 'prenotazioni:prenotazioni_sala' %}
+
 urlpatterns = [
-    path("sala/<str:codice_sala>/", views.prenotazioni_sala, name="prenotazioni_sala"),    #collegamento con sale
-    path("cliente/<str:codice_cliente>/", views.prenotazioni_cliente, name="prenotazioni_cliente"),    #collegamento con clienti
+    path('', views.index, name='index'),
+    path('<str:codice_sala>/', views.index, name='index'),
 ]

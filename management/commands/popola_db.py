@@ -57,7 +57,7 @@ def genera_cf(nome, cognome, data_nas_str):
 
 # --- CONFIGURAZIONE ---
 NUM_SALE = 50
-NUM_CLIENTI = 1000
+NUM_CLIENTI = 250
 NUM_GIORNI_DA_POPOLARE = 7 # Popoliamo per una settimana
 START_DATE_PRENOTAZIONI = datetime(2025, 6, 1)
 
@@ -245,7 +245,7 @@ with transaction.atomic():
             abbonamenti_per_cliente[codice_cliente] = []
         abbonamenti_per_cliente[codice_cliente].append(abb)
         
-    posti_da_prenotare = random.sample(generated_posti, int(len(generated_posti) * 0.7))
+    posti_da_prenotare = random.sample(generated_posti, int(len(generated_posti) * 0.3))
 
     for posto_dict in posti_da_prenotare:
         posto_obj_fk = posto_dict['obj']
