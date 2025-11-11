@@ -95,14 +95,14 @@
                             <td>{{ sala.codice }}</td>
                             <td>{{ sala.nome }}</td>
                             <td>{{ sala.tema }}</td>
-                            <td>{{ sala.mq }}</td>
+                            <td>{{ sala.mq }}</td>                            
                             <td>
-                                <a href="">
+                                <a href="{% url 'fasce_orarie:index' %}?sala={{ sala.codice|urlencode }}">
                                     {{ sala.n_fasce }}
                                 </a>
                             </td>
                             <td>
-                                <a href="">
+                                <a href="{% url 'prenotazioni:index' %}?sala={{ sala.codice|urlencode }}">
                                     {{ sala.n_prenotazioni }}
                                 </a>
                             </td>
