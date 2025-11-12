@@ -167,7 +167,7 @@ def index(request):
     # valori distinti per il select Tema
     themes = Sala.objects.order_by('tema').values_list('tema', flat=True).distinct()
 
-    # manteniamo i valori della form per riempire i campi
+    # valori della form per riempire i campi
     filters = {
         'Codice': codice,
         'Nome': nome,

@@ -42,7 +42,7 @@ def index(request):
         oggi = timezone.now().date()
         abbonamenti = abbonamenti.filter(inizio__lte=oggi, fine__gte=oggi)
 
-    # --- Costruzione dati per il template ---
+    # Costruzione dati per il template
     abbonamenti_data = []
     for a in abbonamenti:
         # Estrae codice cliente dal formato "Nome Cognome (C123)"

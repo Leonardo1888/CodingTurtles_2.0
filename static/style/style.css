@@ -51,8 +51,6 @@ body {
 
 .logo {
   width: 60px;
-  height: auto;
-  /* effetto di transizione */
 }
 
 .title h1 {
@@ -80,17 +78,6 @@ body {
 
 .ballerina-image:hover {
   transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-  .ballerina-image {
-    display: none;
-  }
-
-  .logo {
-    width: 80px;
-    height: auto;
-  }
 }
 
 /* ----------------- NAVBAR ----------------- */
@@ -193,25 +180,6 @@ body {
   }
 }
 
-/* ----------------- RESPONSIVE ----------------- */
-@media (max-width: 768px) {
-  .nav-list {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .container-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .logo {
-    width: 120%;
-    height: 120%;
-    margin-bottom: 10px;
-  }
-}
-
 /* ----------------- COLONNA FILTRI ----------------- */
 
 .colonna-filtro {
@@ -283,7 +251,7 @@ input[type="checkbox"] { width: auto !important; }
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #f0f0f0; /* Grigio chiaro */
+  background-color: #f0f0f0; 
   color: #333;
   text-align: center;
   text-decoration: none;
@@ -321,14 +289,12 @@ input[type="checkbox"] { width: auto !important; }
   border-radius: 10px;
   margin-top: 20px; 
   overflow: hidden;
-  /* Altezza fissa basata sullo schermo */
   max-height: calc(100vh - 200px); /* 200px per header, margini e titolo */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
-/* Wrapper per la scrollbar orizzontale sopra */
 .table-responsive::before {
   content: '';
   position: sticky;
@@ -346,13 +312,12 @@ input[type="checkbox"] { width: auto !important; }
 
 .table-responsive .table {
   min-width: 100%;
-  margin-bottom: 0; /* Rimuove margine bottom della tabella */
+  margin-bottom: 0; 
 }
 
-/* Rendi le celle più compatte */
 .table-responsive .table tbody td {
   padding: 8px 6px;
-  white-space: nowrap; /* Impedisce al testo di andare a capo */
+  white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 20px; 
@@ -455,8 +420,6 @@ tbody tr td[colspan="4"] {
 }
 
 .btn-modifica:hover {
-  background-color: var(--verde-scuro);
-  border-color: var(--verde-scuro);
   transform: translateY(-1px);
 }
 
@@ -472,9 +435,7 @@ tbody tr td[colspan="4"] {
   transform: translateY(-1px);
 }
 
-/* pulsanti all'interno del modale */
 #salaModal button[type="submit"] {
-  /* Colore Salva: Verde primario */
   background-color: var(--verde);
   color: var(--bianco);
   border: none;

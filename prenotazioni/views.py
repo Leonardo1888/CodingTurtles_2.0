@@ -7,7 +7,7 @@ import re
 def index(request):
     prenotazioni = Prenotazione.objects.all().order_by('data', 'ora')
     
-    # --- Recupera i parametri di filtro dalla richiesta GET ---
+    # Recupera i parametri di filtro dalla richiesta GET
     cliente = request.GET.get('cliente', '').strip()
     sala = request.GET.get('sala', '').strip()
     data_min = request.GET.get('inizio_prenotazione_min', '').strip()
@@ -17,8 +17,7 @@ def index(request):
     posto = request.GET.get('posto', '').strip()
     abbonamento = request.GET.get('abbonamento', '').strip()
 
-    # --- Applica i filtri al queryset ---
-
+    # Applica i filtri al queryset
     if cliente:
         prenotazioni = prenotazioni.filter(cliente__icontains=cliente)
     if sala:
@@ -37,7 +36,7 @@ def index(request):
     if abbonamento:
         prenotazioni = prenotazioni.filter(abbonamento__icontains=abbonamento)
 
-    # --- Costruzione dati per il template ---
+    # Costruzione dati per il template
     prenotazioni_data = []
     for p in prenotazioni:
         # Estrae codice sala dal formato "(S022) - Nome Sala"
@@ -55,7 +54,7 @@ def index(request):
             "abbonamento": p.abbonamento, 
         })
 
-    # --- Dizionario dei filtri per repopolare il form nel template ---
+    # Dizionario dei filtri per repopolare il form nel template
     filters = {
         'cliente': cliente,
         'sala': sala,
@@ -67,7 +66,7 @@ def index(request):
         'abbonamento': abbonamento,
     }
 
-    # --- Renderizza la pagina ---
+    # Renderizza la pagina
     return render(request, "prenotazioni/prenotazioni.html", {
         "prenotazioni_data": prenotazioni_data,
         "filters": filters,
