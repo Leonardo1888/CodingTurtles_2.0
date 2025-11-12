@@ -5,6 +5,9 @@ echo   AVVIO PROGETTO DJANGO - CodingTurtles
 echo =========================================
 echo.
 
+REM --- Forza esecuzione nella cartella del BAT (dove c'è manage.py) ---
+cd /d %~dp0
+
 REM ==============================
 REM 1️. Controllo presenza Python
 REM ==============================
@@ -24,7 +27,7 @@ echo Python versione rilevata: %PYTHON_VER%
 echo.
 
 REM ==============================
-REM 2. Controllo pip
+REM 2️. Controllo pip
 REM ==============================
 python -m pip --version >nul 2>&1
 IF ERRORLEVEL 1 (
@@ -56,20 +59,34 @@ echo Tutto pronto!
 echo.
 
 REM ==============================
-REM 4️. Avvio server Django
+REM 4️. Trova porta libera (da 8000 in poi)
+REM ==============================
+set PORT=8000
+:check_port
+netstat -ano | findstr ":%PORT%" >nul
+IF %ERRORLEVEL%==0 (
+    set /a PORT+=1
+    goto check_port
+)
+echo Porta libera trovata: %PORT%
+echo.
+
+REM ==============================
+REM 5️. Avvio server Django
 REM ==============================
 echo Avvio del server locale nella stessa finestra...
 echo -------------------------------------------------
 echo Una volta avviato, apri il browser all'indirizzo:
-echo http://localhost:8000
+echo http://localhost:%PORT%
 echo -------------------------------------------------
 echo.
 
-REM Avvio server (senza start, compatibile utenti limitati)
-python manage.py runserver
+start "" python manage.py runserver %PORT%
+start http://localhost:%PORT%
+
 
 REM ==============================
-REM 5️. Fine
+REM 6️. Fine
 REM ==============================
 echo.
 echo Server Django terminato.
