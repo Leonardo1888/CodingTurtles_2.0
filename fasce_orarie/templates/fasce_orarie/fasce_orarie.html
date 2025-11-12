@@ -50,15 +50,15 @@
                                 style="cursor: pointer;">
                                 <u>Codice Sala</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('data')" data-column="data"
+                            <th class="sortable text-end" onclick="sortTable('data')" data-column="data"
                                 style="cursor: pointer;">
                                 <u>Data</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('ora')" data-column="ora"
+                            <th class="sortable text-end" onclick="sortTable('ora')" data-column="ora"
                                 style="cursor: pointer;">
                                 <u>Ora</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('durata')" data-column="durata"
+                            <th class="sortable text-end" onclick="sortTable('durata')" data-column="durata"
                                 style="cursor: pointer;">
                                 <u>Durata</u><span class="sort-icon"></span>
                             </th>
@@ -72,9 +72,9 @@
                                     {{ fascia_oraria.sala }}
                                 </a>
                             </td>
-                            <td>{{ fascia_oraria.data }}</td>
-                            <td>{{ fascia_oraria.ora }}</td>
-                            <td>{{ fascia_oraria.durata }}</td>
+                            <td class="text-end">{{ fascia_oraria.data }}</td>
+                            <td class="text-end">{{ fascia_oraria.ora }}</td>
+                            <td class="text-end">{{ fascia_oraria.durata }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

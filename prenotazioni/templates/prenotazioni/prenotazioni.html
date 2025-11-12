@@ -63,18 +63,18 @@
                                 style="cursor: pointer;">
                                 <u>Codice Sala</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('data')" data-column="data"
+                            <th class="sortable text-end" onclick="sortTable('data')" data-column="data"
                                 style="cursor: pointer;">
                                 <u>Data</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('ora')" data-column="ora" style="cursor: pointer;">
+                            <th class="sortable text-end" onclick="sortTable('ora')" data-column="ora" style="cursor: pointer;">
                                 <u>Ora</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('posto')" data-column="posto"
+                            <th class="sortable text-end" onclick="sortTable('posto')" data-column="posto"
                                 style="cursor: pointer;">
                                 <u>Posto</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable" onclick="sortTable('abbonamento')" data-column="abbonamento"
+                            <th class="sortable text-end" onclick="sortTable('abbonamento')" data-column="abbonamento"
                                 style="cursor: pointer;">
                                 <u>Abbonamento usato</u><span class="sort-icon"></span>
                             </th>
@@ -93,10 +93,10 @@
                                     {{ prenotazione.sala }}
                                 </a>
                             </td>
-                            <td>{{ prenotazione.data }}</td>
-                            <td>{{ prenotazione.ora }}</td>
-                            <td>{{ prenotazione.posto }}</td>
-                           <td>
+                            <td class="text-end">{{ prenotazione.data }}</td>
+                            <td class="text-end">{{ prenotazione.ora }}</td>
+                            <td class="text-end">{{ prenotazione.posto }}</td>
+                           <td class="text-end">
                                 <a href="{% url 'abbonamenti:index' %}?nAbb={{ prenotazione.abbonamento|urlencode }}">
                                     {{ prenotazione.abbonamento }}
                                 </a>

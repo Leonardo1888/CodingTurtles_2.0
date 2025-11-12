@@ -99,16 +99,16 @@
                             <td>{{ cliente.nome }}</td>
                             <td>{{ cliente.cognome }}</td>
                             <td>{{ cliente.cf }}</td>
-                            <td>{{ cliente.dataNas }}</td>
+                            <td class="text-end">{{ cliente.dataNas }}</td>
                             <td>{{ cliente.indirizzo }}</td>
                             <td>{{ cliente.tel }}</td>
                             <td>{{ cliente.email }}</td>
-                            <td>
+                            <td class="text-end">
                                 <a href="{% url 'abbonamenti:index' %}?cliente={{ cliente.codice|urlencode }}">
                                     {{ cliente.n_abb }}
                                 </a>
                             </td>
-                            <td>
+                            <td class="text-end">
                                 <a href="{% url 'prenotazioni:index' %}?cliente={{ cliente.codice|urlencode }}">
                                     {{ cliente.n_prenotazioni }}
                                 </a>

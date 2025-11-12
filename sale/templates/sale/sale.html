@@ -52,7 +52,7 @@
                     <thead>
                         <tr>
                             <th class="text-end">Azioni</th>
-                            <th class="sortable" onclick="sortTable('codice')" data-column="codice"
+                            <th class="sortable text-end" onclick="sortTable('codice')" data-column="codice"
                                 style="cursor: pointer;">
                                 <u>Codice Sala</u><span class="sort-icon"></span>
                             </th>
@@ -92,16 +92,16 @@
                                     </a>
                                 </div>
                             </td>
-                            <td>{{ sala.codice }}</td>
+                            <td class="text-end">{{ sala.codice }}</td>
                             <td>{{ sala.nome }}</td>
                             <td>{{ sala.tema }}</td>
-                            <td>{{ sala.mq }}</td>                            
-                            <td>
+                            <td class="text-end">{{ sala.mq }}</td>                            
+                            <td class="text-end">
                                 <a href="{% url 'fasce_orarie:index' %}?sala={{ sala.codice|urlencode }}">
                                     {{ sala.n_fasce }}
                                 </a>
                             </td>
-                            <td>
+                            <td class="text-end">
                                 <a href="{% url 'prenotazioni:index' %}?sala={{ sala.codice|urlencode }}">
                                     {{ sala.n_prenotazioni }}
                                 </a>
