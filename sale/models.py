@@ -1,4 +1,5 @@
 from django.db import models
+from clienti.models import Cliente
 
 class Sala(models.Model): # codice, nome, tema, mq
     codice = models.CharField(max_length=4, primary_key=True, verbose_name="Codice Sala", unique=True)
@@ -30,14 +31,16 @@ class FasciaOraria(models.Model): # sala, data, ora, durata
 
 class Prenotazione(models.Model): # nProg, cliente, sala, data, ora, posto, abbonamento
     nProg = models.AutoField(primary_key=True, verbose_name="Numero Progressivo", unique=True)
-    
-    cliente = models.CharField(max_length=4, verbose_name="Codice Cliente")
-    sala = models.ForeignKey(Sala, on_delete=models.CASCADE, verbose_name="Codice Sala")
-    
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.CASCADE,
+        verbose_name="Cliente",
+        related_name="prenotazioni"
+    )
+    sala = models.ForeignKey(Sala, on_delete=models.CASCADE, verbose_name="Sala")    
     data = models.DateField(verbose_name="Data")
     ora = models.TimeField(verbose_name="Ora")
     posto = models.IntegerField(verbose_name="Posto")
-  
     abbonamento = models.CharField(max_length=100, verbose_name="Codice Abbonamento")
 
     class Meta:

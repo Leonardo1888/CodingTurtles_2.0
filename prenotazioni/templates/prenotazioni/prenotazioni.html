@@ -84,7 +84,7 @@
                         {% for prenotazione in prenotazioni_data %}
                         <tr>
                             <td>
-                                <a href="{% url 'clienti:index' %}?Codice={{ prenotazione.cliente|urlencode }}">
+                                <a href="{% url 'clienti:index' %}?Codice={{ prenotazione.codice_cliente|urlencode }}">
                                     {{ prenotazione.cliente }}
                                 </a>
                             </td>

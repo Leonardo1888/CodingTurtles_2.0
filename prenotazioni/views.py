@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from sale.models import Prenotazione 
+from clienti.models import Abbonamento
 from django.db.models import Q
 import re
 
@@ -20,24 +21,19 @@ def index(request):
 
     if cliente:
         prenotazioni = prenotazioni.filter(cliente__icontains=cliente)
-    
     if sala:
         prenotazioni = prenotazioni.filter(sala__codice__icontains=sala)
-    
     if data_min:
         prenotazioni = prenotazioni.filter(data__gte=data_min)
     if data_max:
         prenotazioni = prenotazioni.filter(data__lte=data_max)
-    
     if ora_min:
         prenotazioni = prenotazioni.filter(ora__gte=ora_min)
     if ora_max:
         prenotazioni = prenotazioni.filter(ora__lte=ora_max)
-
     if posto:
         if posto.isdigit():
             prenotazioni = prenotazioni.filter(posto=int(posto))
-    
     if abbonamento:
         prenotazioni = prenotazioni.filter(abbonamento__icontains=abbonamento)
 
@@ -49,7 +45,8 @@ def index(request):
         codice_sala = match.group(1) if match else ''
 
         prenotazioni_data.append({
-            "cliente": p.cliente,
+            "cliente": f"{p.cliente.nome} {p.cliente.cognome}",
+            "codice_cliente": p.cliente.codice,
             "sala": p.sala, 
             "codice_sala": codice_sala,
             "data": p.data,
