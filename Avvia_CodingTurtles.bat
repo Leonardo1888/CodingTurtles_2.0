@@ -9,7 +9,7 @@ REM --- Forza esecuzione nella cartella del BAT (dove c'è manage.py) ---
 cd /d %~dp0
 
 REM ==============================
-REM 1️. Controllo presenza Python
+REM 1. Controllo presenza Python
 REM ==============================
 python --version >nul 2>&1
 IF ERRORLEVEL 1 (
@@ -27,7 +27,7 @@ echo Python versione rilevata: %PYTHON_VER%
 echo.
 
 REM ==============================
-REM 2️. Controllo pip
+REM 2. Controllo pip
 REM ==============================
 python -m pip --version >nul 2>&1
 IF ERRORLEVEL 1 (
@@ -38,7 +38,7 @@ IF ERRORLEVEL 1 (
 )
 
 REM ==============================
-REM 3️. Controllo Django
+REM 3. Controllo Django
 REM ==============================
 python -m django --version >nul 2>&1
 IF ERRORLEVEL 1 (
@@ -59,7 +59,7 @@ echo Tutto pronto!
 echo.
 
 REM ==============================
-REM 4️. Trova porta libera (da 8000 in poi)
+REM 4. Trova porta libera (da 8000 in poi)
 REM ==============================
 set PORT=8000
 :check_port
@@ -72,7 +72,7 @@ echo Porta libera trovata: %PORT%
 echo.
 
 REM ==============================
-REM 5️. Avvio server Django
+REM 5. Avvio server Django
 REM ==============================
 echo Avvio del server locale nella stessa finestra...
 echo -------------------------------------------------
@@ -86,7 +86,7 @@ start http://localhost:%PORT%
 
 
 REM ==============================
-REM 6️. Fine
+REM 6. Fine
 REM ==============================
 echo.
 echo Server Django terminato.
