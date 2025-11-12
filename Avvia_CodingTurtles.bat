@@ -44,7 +44,7 @@ python -m django --version >nul 2>&1
 IF ERRORLEVEL 1 (
     echo [!] Django non trovato. Installazione in corso...
     python -m pip install --upgrade pip
-    python -m pip install Django==5.2.7
+    python -m pip install "Django>=5.0,<6.0"
 ) ELSE (
     for /f "tokens=*" %%i in ('python -m django --version') do set DJANGO_VER=%%i
     echo Django versione rilevata: %DJANGO_VER%
