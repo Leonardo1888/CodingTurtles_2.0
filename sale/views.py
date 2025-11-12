@@ -150,6 +150,9 @@ def index(request):
         except ValueError:
             pass
 
+    # conteggio dei risultati
+    total_results = qs.count()
+
     # raccolta dati per il template
     sale_data = []
     for sala in qs:
@@ -176,5 +179,5 @@ def index(request):
         'Mq_max': mq_max,
     }
 
-    return render(request, "sale/sale.html", {"sale_data": sale_data, "themes": themes, "filters": filters})
+    return render(request, "sale/sale.html", {"sale_data": sale_data, "themes": themes, "filters": filters, "total_results": total_results})
 

@@ -42,6 +42,9 @@ def index(request):
         oggi = timezone.now().date()
         abbonamenti = abbonamenti.filter(inizio__lte=oggi, fine__gte=oggi)
 
+    # conteggio dei risultati
+    total_results = abbonamenti.count()
+
     # Costruzione dati per il template
     abbonamenti_data = []
     for a in abbonamenti:
@@ -73,4 +76,5 @@ def index(request):
     return render(request, "abbonamenti/abbonamenti.html", {
         "abbonamenti_data": abbonamenti_data,
         "filters": filters,
+        "total_results": total_results,
     })

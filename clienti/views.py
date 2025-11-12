@@ -42,6 +42,9 @@ def index(request):
         qs = qs.filter(tel__icontains=tel)
     if email:
         qs = qs.filter(email__icontains=email)
+    
+    # conteggio dei risultati
+    total_results = qs.count()
 
     # raccolta dati per il template
     clienti_data = []
@@ -76,5 +79,6 @@ def index(request):
 
     return render(request, "clienti/clienti.html", {
         "clienti_data": clienti_data,
-        "filters": filters
+        "filters": filters,
+        "total_results": total_results,
     })

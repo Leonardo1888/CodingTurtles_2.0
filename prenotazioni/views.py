@@ -19,7 +19,7 @@ def index(request):
 
     # Applica i filtri al queryset
     if cliente:
-        prenotazioni = prenotazioni.filter(cliente__icontains=cliente)
+        prenotazioni = prenotazioni.filter(cliente__codice__icontains=cliente)
     if sala:
         prenotazioni = prenotazioni.filter(sala__codice__icontains=sala)
     if data_min:
@@ -35,6 +35,9 @@ def index(request):
             prenotazioni = prenotazioni.filter(posto=int(posto))
     if abbonamento:
         prenotazioni = prenotazioni.filter(abbonamento__icontains=abbonamento)
+
+    # conteggio dei risultati
+    total_results = prenotazioni.count()
 
     # Costruzione dati per il template
     prenotazioni_data = []
@@ -70,4 +73,5 @@ def index(request):
     return render(request, "prenotazioni/prenotazioni.html", {
         "prenotazioni_data": prenotazioni_data,
         "filters": filters,
+        "total_results": total_results,
     })

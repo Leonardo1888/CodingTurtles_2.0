@@ -49,6 +49,9 @@ def index(request):
         except ValueError:
             pass
 
+    # conteggio dei risultati
+    total_results = qs.count()
+
     # Raccolta dati per il template
     fasce_orarie_data = []
     for fascia in qs:
@@ -77,5 +80,6 @@ def index(request):
 
     return render(request, "fasce_orarie/fasce_orarie.html", {
         "fasce_orarie_data": fasce_orarie_data,
-        "filters": filters
+        "filters": filters,
+        "total_results": total_results,
     })
