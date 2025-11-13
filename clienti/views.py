@@ -22,7 +22,8 @@ def index(request):
     indirizzo = request.GET.get('Indirizzo', '').strip()
     tel = request.GET.get('Tel', '').strip()
     email = request.GET.get('Email', '').strip()
-
+    haAbbonamento = request.GET.get('HaAbbonamento', '').strip()
+    
     # applicazione filtri
     if codice:
         qs = qs.filter(codice__icontains=codice)
@@ -42,15 +43,16 @@ def index(request):
         qs = qs.filter(tel__icontains=tel)
     if email:
         qs = qs.filter(email__icontains=email)
-    
-    # conteggio dei risultati
-    total_results = qs.count()
 
     # raccolta dati per il template
     clienti_data = []
     for cliente in qs:
         n_abb = Abbonamento.objects.filter(cliente=cliente).count()
         n_prenotazioni = Prenotazione.objects.filter(cliente=cliente.codice).count()
+        
+        if haAbbonamento and n_abb == 0:
+            continue
+        
         clienti_data.append({
             "codice": cliente.codice,
             "nome": cliente.nome,
@@ -64,6 +66,9 @@ def index(request):
             "n_prenotazioni": n_prenotazioni,
         })
 
+    # conteggio dei risultati
+    total_results = len(clienti_data)
+    
     # manteniamo i valori della form per riempire i campi
     filters = {
         'Codice': codice,
@@ -75,6 +80,7 @@ def index(request):
         'Indirizzo': indirizzo,
         'Tel': tel,
         'Email': email,
+        'HaAbbonamento': haAbbonamento,
     }
 
     return render(request, "clienti/clienti.html", {

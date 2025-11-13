@@ -38,6 +38,9 @@
                 <label for="Email">Email:</label>
                 <input type="text" id="Email" name="Email" value="{{ filters.Email }}"><br>
 
+                <label for="HaAbbonamento">In possesso di un abbonamento:</label>
+                <input type="checkbox" id="HaAbbonamento" name="HaAbbonamento" {% if filters.HaAbbonamento %}checked{% endif %}><br>
+
                 <button type="submit" class="btn-modifica">Cerca</button>
                 <a href="{% url 'clienti:index' %}" class="btn-reset">Reset</a>
             </form>

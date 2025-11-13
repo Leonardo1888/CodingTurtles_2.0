@@ -88,6 +88,3 @@ start http://localhost:%PORT%
 REM ==============================
 REM 6. Fine
 REM ==============================
-echo.
-echo Server Django terminato.
-pause
