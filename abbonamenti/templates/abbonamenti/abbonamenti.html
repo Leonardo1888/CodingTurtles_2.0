@@ -100,8 +100,8 @@
                                     {{ abbonamento.cliente }}
                                 </a>
                             </td>
-                            <td class="text-end">{{ abbonamento.inizio }}</td>
-                            <td class="text-end">{{ abbonamento.fine }}</td>
+                            <td class="text-end" data-iso="{{ abbonamento.inizio|date:'Y-m-d' }}">{{abbonamento.inizio|date:"d/m/Y" }}</td>
+                            <td class="text-end" data-iso="{{ abbonamento.fine|date:'Y-m-d' }}">{{abbonamento.fine|date:"d/m/Y" }}</td>
                             <td class="text-end">{{ abbonamento.prezzo }}</td>
                         </tr>
                         {% endfor %}

@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentSortDirection = 'asc';
     console.log("prenotazioni_logic.js caricato correttamente.");
 
-    // Funzione per l'ordinamento della tabella delle prenotazioni
     window.sortTable = function (column) {
         const tbody = document.getElementById('risultati-tabella-prenotazioni');
         if (!tbody) return;
@@ -12,13 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const headers = Array.from(table.querySelectorAll('thead th'));
 
-        // Rimuove le frecce da tutte le colonne
         headers.forEach(h => {
             const icon = h.querySelector('.sort-icon');
             if (icon) icon.textContent = '';
         });
 
-        // Inverte la direzione o imposta ascendente
         if (currentSortColumn === column) {
             currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
         } else {
@@ -29,30 +26,72 @@ document.addEventListener('DOMContentLoaded', function () {
         const columnIndex = headers.findIndex(h => h.getAttribute('data-column') === column);
         if (columnIndex === -1) return;
 
-        // Mostra l'icona sulla colonna attiva (se presente)
         const activeIcon = headers[columnIndex]?.querySelector('.sort-icon');
         if (activeIcon) activeIcon.textContent = currentSortDirection === 'asc' ? ' ▲' : ' ▼';
 
-        // Ordina le righe
         const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        const monthMap = {
+            "gennaio": 0, "febbraio": 1, "marzo": 2, "aprile": 3,
+            "maggio": 4, "giugno": 5, "luglio": 6, "agosto": 7,
+            "settembre": 8, "ottobre": 9, "novembre": 10, "dicembre": 11
+        };
+
+        function parseItalianDate(str) {
+            if (!str) return null;
+            // normalizza spazi, rimuove caratteri non necessari
+            const s = str.trim().toLowerCase().replace(/\u00A0/g, ' ').replace(/\./g, '').replace(/°/g, '');
+            // se formato dd/mm/yyyy o d/m/yyyy
+            if (/^\d{1,2}\s*\/\s*\d{1,2}\s*\/\s*\d{4}$/.test(s)) {
+                const parts = s.split('/').map(p => p.trim());
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const year = parseInt(parts[2], 10);
+                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) return new Date(year, month, day);
+            }
+            // split su qualunque quantità di spazi
+            const parts = s.split(/\s+/);
+            // possibili formati: ['01','giugno','2025'] oppure ['1','giugno','2025']
+            if (parts.length >= 3) {
+                const day = parseInt(parts[0].replace(/[^\d]/g, ''), 10);
+                const monthName = parts[1];
+                const year = parseInt(parts[2].replace(/[^\d]/g, ''), 10);
+                const month = monthMap[monthName];
+                if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                    return new Date(year, month, day);
+                }
+            }
+            return null;
+        }
+
         rows.sort((a, b) => {
             const aValue = a.cells[columnIndex]?.textContent.trim() || '';
             const bValue = b.cells[columnIndex]?.textContent.trim() || '';
 
-            // Colonne numeriche o con codici
             if (['cliente', 'sala', 'posto', 'abbonamento'].includes(column)) {
                 return currentSortDirection === 'asc'
                     ? aValue.localeCompare(bValue, undefined, { numeric: true, sensitivity: 'base' })
                     : bValue.localeCompare(aValue, undefined, { numeric: true, sensitivity: 'base' });
             }
 
-            // Colonne data/ora
             if (column === 'data') {
-                const dateA = new Date(aValue);
-                const dateB = new Date(bValue);
-                if (!isNaN(dateA) && !isNaN(dateB)) {
-                    return currentSortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-                }
+                // Modifica qui: cerca prima l'attributo data-iso, altrimenti usa il testo della cella
+                const dateA_source = a.cells[columnIndex]?.dataset.iso || aValue;
+                const dateB_source = b.cells[columnIndex]?.dataset.iso || bValue;
+                
+                // Il formato ISO 'yyyy-mm-dd' è riconosciuto correttamente da new Date()
+                const dA = new Date(dateA_source);
+                const dB = new Date(dateB_source);
+
+                const timeA = dA.getTime();
+                const timeB = dB.getTime();
+
+                if (isNaN(timeA) && isNaN(timeB)) return 0;
+                if (isNaN(timeA)) return currentSortDirection === 'asc' ? 1 : -1;
+                if (isNaN(timeB)) return currentSortDirection === 'asc' ? -1 : 1;
+
+                const comparison = timeA - timeB;
+                return currentSortDirection === 'asc' ? comparison : -comparison;
             }
 
             if (column === 'ora') {
@@ -66,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return 0;
         });
 
-        // Aggiorna la tabella
         tbody.innerHTML = '';
         rows.forEach(r => tbody.appendChild(r));
     }

@@ -68,7 +68,8 @@
                                 style="cursor: pointer;">
                                 <u>Data</u><span class="sort-icon"></span>
                             </th>
-                            <th class="sortable text-end" onclick="sortTable('ora')" data-column="ora" style="cursor: pointer;">
+                            <th class="sortable text-end" onclick="sortTable('ora')" data-column="ora"
+                                style="cursor: pointer;">
                                 <u>Ora</u><span class="sort-icon"></span>
                             </th>
                             <th class="sortable text-end" onclick="sortTable('posto')" data-column="posto"
@@ -94,10 +95,12 @@
                                     {{ prenotazione.sala }}
                                 </a>
                             </td>
-                            <td class="text-end">{{ prenotazione.data }}</td>
+                            <td class="text-end" data-iso="{{ prenotazione.data|date:'Y-m-d' }}">
+                                {{ prenotazione.data }}
+                            </td>
                             <td class="text-end">{{ prenotazione.ora }}</td>
                             <td class="text-end">{{ prenotazione.posto }}</td>
-                           <td class="text-end">
+                            <td class="text-end">
                                 <a href="{% url 'abbonamenti:index' %}?nAbb={{ prenotazione.abbonamento|urlencode }}">
                                     {{ prenotazione.abbonamento }}
                                 </a>

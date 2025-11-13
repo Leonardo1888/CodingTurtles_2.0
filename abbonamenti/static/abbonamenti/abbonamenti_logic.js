@@ -46,13 +46,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 return currentSortDirection === 'asc' ? ai - bi : bi - ai;
             }
 
-            // Ordine per date (inizio, fine)
-            if (['inizio', 'fine'].includes(column)) {
-                const dateA = new Date(aValue);
-                const dateB = new Date(bValue);
-                if (!isNaN(dateA) && !isNaN(dateB)) {
-                    return currentSortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-                }
+            if (column === 'inizio') {
+                // Modifica qui: cerca prima l'attributo data-iso, altrimenti usa il testo della cella
+                const dateA_source = a.cells[columnIndex]?.dataset.iso || aValue;
+                const dateB_source = b.cells[columnIndex]?.dataset.iso || bValue;
+                
+                // Il formato ISO 'yyyy-mm-dd' è riconosciuto correttamente da new Date()
+                const dA = new Date(dateA_source);
+                const dB = new Date(dateB_source);
+
+                const timeA = dA.getTime();
+                const timeB = dB.getTime();
+
+                if (isNaN(timeA) && isNaN(timeB)) return 0;
+                if (isNaN(timeA)) return currentSortDirection === 'asc' ? 1 : -1;
+                if (isNaN(timeB)) return currentSortDirection === 'asc' ? -1 : 1;
+
+                const comparison = timeA - timeB;
+                return currentSortDirection === 'asc' ? comparison : -comparison;
+            }
+
+            if (column === 'fine') {
+                // Modifica qui: cerca prima l'attributo data-iso, altrimenti usa il testo della cella
+                const dateA_source = a.cells[columnIndex]?.dataset.iso || aValue;
+                const dateB_source = b.cells[columnIndex]?.dataset.iso || bValue;
+                
+                // Il formato ISO 'yyyy-mm-dd' è riconosciuto correttamente da new Date()
+                const dA = new Date(dateA_source);
+                const dB = new Date(dateB_source);
+
+                const timeA = dA.getTime();
+                const timeB = dB.getTime();
+
+                if (isNaN(timeA) && isNaN(timeB)) return 0;
+                if (isNaN(timeA)) return currentSortDirection === 'asc' ? 1 : -1;
+                if (isNaN(timeB)) return currentSortDirection === 'asc' ? -1 : 1;
+
+                const comparison = timeA - timeB;
+                return currentSortDirection === 'asc' ? comparison : -comparison;
             }
 
             // Ordine alfabetico per le altre colonne

@@ -39,7 +39,7 @@
                 <input type="text" id="Email" name="Email" value="{{ filters.Email }}"><br>
 
                 <label for="HaAbbonamento">In possesso di un abbonamento:</label>
-                <input type="checkbox" id="HaAbbonamento" name="HaAbbonamento" {% if filters.HaAbbonamento %}checked{% endif %}><br>
+                <input type="checkbox" id="HaAbbonamento" name="HaAbbonamento" {% if filters.HaAbbonamento %}checked{%endif %}><br>
 
                 <button type="submit" class="btn-modifica">Cerca</button>
                 <a href="{% url 'clienti:index' %}" class="btn-reset">Reset</a>
@@ -103,7 +103,9 @@
                             <td>{{ cliente.nome }}</td>
                             <td>{{ cliente.cognome }}</td>
                             <td>{{ cliente.cf }}</td>
-                            <td class="text-end">{{ cliente.dataNas }}</td>
+                            <td class="text-end" data-iso="{{ cliente.dataNas|date:'Y-m-d' }}">
+                                {{ cliente.dataNas|date:"d/m/Y" }}
+                            </td>
                             <td>{{ cliente.indirizzo }}</td>
                             <td>{{ cliente.tel }}</td>
                             <td>{{ cliente.email }}</td>
